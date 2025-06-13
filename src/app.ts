@@ -11,7 +11,6 @@ const app: Application = express();
   //     "https://bicycle-store-client-one.vercel.app",  // Vercel frontend
   //   ], credentials: true}));
 
-
 // application routes 
    
 
@@ -21,7 +20,6 @@ app.get("/", (req: Request, res: Response) => {
 
 
 app.use("/api/products", ProjectRoutes);
-
 
 app.use(globalErrorHandler);
 
