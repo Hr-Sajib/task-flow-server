@@ -15,7 +15,7 @@ const userSchema = new Schema<TUser, UserModel>(
       required: [true, 'Email is required'],
       unique: true,
     },
-    userRole: { type: String, enum: ['user', 'admin'], required: true },
+    userRole: { type: String, enum: ['user', 'admin', 'teamLeader', 'teamColeader', 'teamMember', 'client'], default: 'user' },
     userPassword: {
       type: String,
       required: [true, 'Password is required'],
