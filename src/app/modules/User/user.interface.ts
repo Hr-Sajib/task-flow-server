@@ -8,6 +8,10 @@ export type TUser = {
   userEmail: string;
   userRole: TUserRole;
   userPassword: string;
+  userEmployeeId?: string;
+  address?: string;
+  phone?: string;
+  photo?: string;
 };
 
 export interface UserModel extends Model<TUser> {

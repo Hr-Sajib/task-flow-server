@@ -15,12 +15,31 @@ const userSchema = new Schema<TUser, UserModel>(
       required: [true, 'Email is required'],
       unique: true,
     },
-    userRole: { type: String, enum: ['user', 'admin'], required: true },
+    userRole: { type: String, enum: ['user', 'admin', 'teamLeader', 'teamColeader', 'teamMember', 'client'], default: 'user' },
     userPassword: {
       type: String,
       required: [true, 'Password is required'],
       select: 0,
     },
+    userEmployeeId: {
+        type: String,
+        unique: true,
+        sparse: true, 
+      },
+      
+      address: {
+        type: String,
+      },
+      
+      phone: {
+        type: String,
+        unique: true,
+        sparse: true,
+      },
+      
+      photo: {
+        type: String,
+      },       
   },
   { timestamps: true },
 );
