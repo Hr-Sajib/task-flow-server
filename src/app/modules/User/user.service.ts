@@ -1,40 +1,50 @@
-import httpStatus from 'http-status';
-import AppError from '../../errors/AppError';
-import { TUser } from './user.interface';
-import config from '../../../config';
-import { User } from './user.model';
+import httpStatus from "http-status";
+import AppError from "../../errors/AppError";
+import { TUser } from "./user.interface";
+import config from "../../../config";
+import { User } from "./user.model";
 
 const createUserIntoDB = async (payLoad: TUser) => {
   const {
     userName,
     userEmail,
     userEmployeeId,
+    userPassword,
+    userRole,
     address,
     phone,
     photo,
   } = payLoad;
 
-
-  const checkExistingUser = await User.isUserExist(userName, userEmail);
+  const checkExistingUser = await User.findOne({ userEmail: userEmail });
 
   if (checkExistingUser) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      'This name or email is already in use for this web',
+      "This email is already in use!"
     );
   }
 
- 
+  const checkExistingUserById = await User.findOne({
+    userEmployeeId: userEmployeeId,
+  });
+
+  if (checkExistingUserById) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "This employee ID is already in use!"
+    );
+  }
+
   payLoad.userPassword =
     payLoad.userPassword || (config.default_password as string);
-
 
   const userData = {
     userName,
     userEmail,
-    userRole: payLoad.userRole,
-    userPassword: payLoad.userPassword,
-    employeeId: userEmployeeId,
+    userRole,
+    userPassword,
+    userEmployeeId,
     address,
     phone,
     photo,
@@ -42,15 +52,10 @@ const createUserIntoDB = async (payLoad: TUser) => {
 
   const createdUser = await User.create(userData);
 
- 
-  const userObj = createdUser.toObject() as any;
-  delete userObj.userPassword;
-
-  return userObj;
+  return createdUser;
 };
 
-
-const updateUserIntoDB = async () => {}
+const updateUserIntoDB = async () => {};
 
 // const loginUserFromDB = async (payLoad: TUser) => {
 //   const user = await User.isUserExistByEmail(payLoad?.email);
@@ -158,5 +163,5 @@ const updateUserIntoDB = async () => {}
 
 export const UserServices = {
   createUserIntoDB,
-  updateUserIntoDB
+  updateUserIntoDB,
 };
