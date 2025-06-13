@@ -7,12 +7,11 @@ async function main() {
         await mongoose.connect(config.database_url as string);
     
         app.listen(config.port, () => {
-            console.log(`FineMed app listening on port ${config.port}`)
+            console.log(`Task Flow app listening on port ${config.port}`)
         })
     }catch(err){
         console.log(err)
     }
-
 }
 
 main();
