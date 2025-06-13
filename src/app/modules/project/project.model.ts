@@ -29,6 +29,7 @@ const projectSchema = new Schema<IProject>(
     },
     cancellationNote: {
       type: String,
+      default: null
     },
     teamName: {
       type: String,
@@ -89,11 +90,9 @@ const projectSchema = new Schema<IProject>(
       {
         noteProvider: {
           type: String,
-          required: [true, "Note provider is required"],
         },
         noteText: {
           type: String,
-          required: [true, "Note text is required"],
         },
       },
     ],
