@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import globalErrorHandler from "./app/middlewares/globalErrorhandler";
+import { ProjectRoutes } from "./app/modules/Project/project.route";
 // import cors from "cors";
 const app: Application = express();
 
@@ -17,6 +18,9 @@ const app: Application = express();
 app.get("/", (req: Request, res: Response) => {
   res.send("TaskFlow server running ..");
 });
+
+
+app.use("/api/project", ProjectRoutes);
 
 
 app.use(globalErrorHandler);

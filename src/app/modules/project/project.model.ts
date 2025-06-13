@@ -3,9 +3,11 @@ import { IProject } from "./project.interface";
 
 const projectSchema = new Schema<IProject>(
   {
+
     projectId: {
       type: String,
       required: [true, "Project ID is required"],
+      unique: true,
     },
     projectName: {
       type: String,
@@ -29,7 +31,7 @@ const projectSchema = new Schema<IProject>(
     },
     cancellationNote: {
       type: String,
-      default: null
+      default: null,
     },
     teamName: {
       type: String,
