@@ -20,7 +20,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 
-app.use("/api/project", ProjectRoutes);
+app.use("/api/products", ProjectRoutes);
 
 
 app.use(globalErrorHandler);
