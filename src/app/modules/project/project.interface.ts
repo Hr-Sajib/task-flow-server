@@ -4,6 +4,7 @@ export interface IProject {
     projectName: string;
     station: string;
     clientId: string;
+    projectValue: number;
     deadline: Date;
     cancellationNote: string;
     teamName: string; // আপাতত string রাখা হয়েছে যদিও পরবর্তীতে team এর module কমপ্লিট হবার পর সেখান থেকে ডায়নামিক অপশন ইউজ করা হবে 
