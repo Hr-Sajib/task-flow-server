@@ -40,7 +40,16 @@ const getSingleUser = catchAsync(async(req:Request, res: Response) => {
 })
 
 const updateUser = catchAsync(async(req: Request, res: Response) => {
+  const user = req.user
+  const updatePayload = req.body;
+  const result = await UserServices.updateUserIntoDB(user, updatePayload)
 
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Single user fetched successfsully',
+    data: result,
+  });
 })
 
 const deleteUser = catchAsync(async(req: Request, res: Response) => {
