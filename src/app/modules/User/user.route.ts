@@ -14,7 +14,9 @@ router.post(
 
 router.get("/", UserControllers.getAllUsers);
 
-//router.delete('/:id', UserControllers.deleteUser);
+router.get("/:id", UserControllers.getSingleUser);
+
+router.delete('/:id', UserControllers.deleteUser);
 
 router.patch('/update-user', validateRequest(UserValidations.updateUserValidationSchema), UserControllers.updateUser)
 
