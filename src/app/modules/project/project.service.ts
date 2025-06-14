@@ -47,7 +47,7 @@ const updateProjectInDB = async (projectId: string, updatedData: Partial<IProjec
 const cancelProjectInDB = async (projectId: string, cancellationNote: string) => {
   return await ProjectModel.findOneAndUpdate(
     { projectId: projectId },
-    { $set: { isCanceled: true, cancellationNote } },
+    { $set: { projectStatus: "cancelled", cancellationNote } },
     { new: true }
   );
 };

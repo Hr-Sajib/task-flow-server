@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from "express";
 import globalErrorHandler from "./app/middlewares/globalErrorhandler";
 import { ProjectRoutes } from "./app/modules/Project/project.route";
 import { UserRoutes } from "./app/modules/User/user.route";
+import { AuthRoutes } from "./app/modules/Auth/auth.route";
 // import cors from "cors";
 const app: Application = express();
 
@@ -22,6 +23,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/project", ProjectRoutes);
 app.use("/api/user", UserRoutes);
+app.use("/api/auth", AuthRoutes);
 
 app.use(globalErrorHandler);
 

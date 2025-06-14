@@ -25,10 +25,6 @@ const projectSchema = new Schema<IProject>(
       type: Date,
       required: [true, "Deadline is required"],
     },
-    isCanceled: {
-      type: Boolean,
-      default: false,
-    },
     cancellationNote: {
       type: String,
       default: null,

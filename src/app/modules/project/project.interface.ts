@@ -5,7 +5,6 @@ export interface IProject {
     station: string;
     clientId: string;
     deadline: Date;
-    isCanceled: boolean;
     cancellationNote: string;
     teamName: string; // আপাতত string রাখা হয়েছে যদিও পরবর্তীতে team এর module কমপ্লিট হবার পর সেখান থেকে ডায়নামিক অপশন ইউজ করা হবে 
     frontendRoleAssignedTo: string; // আপাতত string রাখা হয়েছে যদিও পরবর্তীতে team এর module কমপ্লিট হবার পর সেখান থেকে ডায়নামিক অপশন ইউজ করা হবে 
@@ -13,7 +12,7 @@ export interface IProject {
     uiRoleAssignedTo: string; // আপাতত string রাখা হয়েছে যদিও পরবর্তীতে team এর module কমপ্লিট হবার পর সেখান থেকে ডায়নামিক অপশন ইউজ করা হবে 
     lastUpdate: Date;
     lastMeeting: Date;
-    projectStatus: "ui/ux" | "wip" | "new" | "qa" | "delivered" | "revision";
+    projectStatus: "ui/ux" | "wip" | "new" | "qa" | "delivered" | "revision" | "cancelled";
     estimatedDelivery: "thisMonth" | "thisWeek" | "nextMonth";
     rating: "1" | "2" | "3" | "4" | "5" | "noRating";
     clientStatus: "active" | "inactive" | "satisfied" | "unsatisfied" | "angry" | "neutral";

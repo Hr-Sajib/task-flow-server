@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 import httpStatus from "http-status";
 import { ProjectService } from "./project.service";
 import catchAsync from "../../utils/catchAsync";
