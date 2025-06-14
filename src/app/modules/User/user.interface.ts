@@ -7,6 +7,7 @@ export type TUser = {
   userName: string;
   userEmail: string;
   userRole: TUserRole;
+  userJoiningDate?: string;
   userPassword: string;
   userEmployeeId?: string;
   address?: string;
