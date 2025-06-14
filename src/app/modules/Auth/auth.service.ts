@@ -86,4 +86,3 @@ export const authServices = {
   loginUserIntoDB,
   refreshToken
 };
-
