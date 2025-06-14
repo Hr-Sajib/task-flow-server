@@ -61,11 +61,19 @@ const getAllUsersFromDB = async() => {
   return result
 }
 
+const getSingleUserFromDB = async (id: string) => {
+  const result = await User.findById(id);
+  return result;
+};
+
+
 const updateUserIntoDB = async () => {};
 
-const deleteUserIntoDB = async () => {
-  
+const deleteUserIntoDB = async (id: string) => {
+  const result = await User.deleteOne({ _id: id });
+  return result;
 };
+
 
 
 
@@ -73,5 +81,6 @@ export const UserServices = {
   createUserIntoDB,
   updateUserIntoDB,
   getAllUsersFromDB,
-  deleteUserIntoDB
+  deleteUserIntoDB,
+  getSingleUserFromDB
 };
