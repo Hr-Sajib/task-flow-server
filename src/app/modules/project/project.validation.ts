@@ -19,7 +19,7 @@ const createProjectSchema = z.object({
   }),
   estimatedDelivery: z.enum(["thisMonth", "thisWeek", "nextMonth"], {
     required_error: "Estimated delivery is required",
-  }),
+  }).optional(),
   rating: z.enum(["1", "2", "3", "4", "5", "noRating"]).optional(),
   clientStatus: z.enum(["active", "inactive", "satisfied", "unsatisfied", "angry", "neutral"]).optional(),
   figmaLink: z.string().optional(),

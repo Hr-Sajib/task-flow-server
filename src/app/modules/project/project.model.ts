@@ -31,7 +31,6 @@ const projectSchema = new Schema<IProject>(
     },
     teamName: {
       type: String,
-      required: [true, "Team name is required"],
     },
     frontendRoleAssignedTo: {
       type: String,
@@ -52,12 +51,10 @@ const projectSchema = new Schema<IProject>(
       type: String,
       enum: ["ui/ux", "wip", "new", "qa", "delivered", "revision"],
       default: "new",
-      required: [true, "Project status is required"],
     },
     estimatedDelivery: {
       type: String,
       enum: ["thisMonth", "thisWeek", "nextMonth"],
-      required: [true, "Estimated delivery is required"],
     },
     rating: {
       type: String,
