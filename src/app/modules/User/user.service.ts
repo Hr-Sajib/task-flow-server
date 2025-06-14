@@ -63,10 +63,15 @@ const getAllUsersFromDB = async() => {
 
 const updateUserIntoDB = async () => {};
 
+const deleteUserIntoDB = async () => {
+  
+};
+
 
 
 export const UserServices = {
   createUserIntoDB,
   updateUserIntoDB,
   getAllUsersFromDB,
+  deleteUserIntoDB
 };
