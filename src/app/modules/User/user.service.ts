@@ -67,13 +67,50 @@ const getSingleUserFromDB = async (id: string) => {
 };
 
 
-const updateUserIntoDB = async () => {};
+const updateUserIntoDB = async (user: any, payload: any) => {
+  const userEmail = user.userEmail;
+
+  const {
+    oldPassword,
+    newPassword,
+    ...restUpdate
+  } = payload;
+
+  const existingUser = await User.findOne({ userEmail }).select('+userPassword');
+  if (!existingUser) {
+    throw new Error('User not found');
+  }
+
+  if (oldPassword && newPassword) {
+    const isMatched = await User.isPasswordMatched(
+      oldPassword,
+      existingUser.userPassword
+    );
+
+    if (!isMatched) {
+      throw new Error('Old password is incorrect');
+    }
+
+    const bcrypt = await import('bcrypt');
+    restUpdate.userPassword = await bcrypt.hash(newPassword, 10);
+  }
+
+  const updatedUser = await User.findOneAndUpdate(
+    { userEmail },
+    { $set: restUpdate },
+    {
+      new: true,
+      runValidators: true,
+    }
+  ).select('-userPassword');
+
+  return updatedUser;
+};
 
 const deleteUserIntoDB = async (id: string) => {
   const result = await User.deleteOne({ _id: id });
   return result;
 };
-
 
 
 
