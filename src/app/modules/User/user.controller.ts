@@ -8,6 +8,8 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   const body = req.body;
   const result = await UserServices.createUserIntoDB(body);
 
+  console.log("User data in controller: ", req.body)
+
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

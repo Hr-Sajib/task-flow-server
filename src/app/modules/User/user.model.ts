@@ -20,6 +20,10 @@ const userSchema = new Schema<TUser, UserModel>(
       type: String,
       required: [true, 'Password is required'],
     },
+    userJoiningDate: {
+      type: String,
+      // required: true
+    },
     userEmployeeId: {
         type: String,
         unique: true,
