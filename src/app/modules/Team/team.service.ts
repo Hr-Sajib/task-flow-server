@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { User } from "../User/user.model";
 import { TTeam } from "./team.interface";
 import { Team } from "./team.model";
@@ -51,7 +52,53 @@ const createTeamIntoDB = async (payload: TTeam) => {
   
     return newTeam;
   };
+
+  const moveTeamMemberFromDB = async (payload: { memberEmail: string; toTeamName: string }) => {
+    const { memberEmail, toTeamName } = payload;
+  
+    const session = await mongoose.startSession();
+    try {
+      session.startTransaction();
+  
+      // Check if user exists
+      const user = await User.findOne({ userEmail: memberEmail }).session(session);
+      if (!user) {
+        throw new Error(`User with email "${memberEmail}" not found.`);
+      }
+  
+      // Find the target team
+      const toTeam = await Team.findOne({ teamName: toTeamName }).session(session);
+      if (!toTeam) {
+        throw new Error(`Destination team "${toTeamName}" not found.`);
+      }
+  
+      // Check if user is already in target team
+      if (toTeam.teamMembersEmails.includes(memberEmail)) {
+        throw new Error(`User "${memberEmail}" is already a member of team "${toTeamName}".`);
+      }
+  
+      // Remove user from any existing team
+      await Team.updateMany(
+        { teamMembersEmails: memberEmail },
+        { $pull: { teamMembersEmails: memberEmail } },
+        { session }
+      );
+  
+      // Add user to new team
+      toTeam.teamMembersEmails.push(memberEmail);
+      await toTeam.save({ session });
+  
+      await session.commitTransaction();
+      session.endSession();
+  
+      return { message: `Member "${memberEmail}" moved to team "${toTeamName}" successfully.` };
+    } catch (error) {
+      await session.abortTransaction();
+      session.endSession();
+      throw error;
+    }
+  };
   
   
 
-export const TeamServices = {createTeamIntoDB}
+export const TeamServices = {createTeamIntoDB, moveTeamMemberFromDB}

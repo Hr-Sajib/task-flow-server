@@ -3,8 +3,9 @@ import globalErrorHandler from "./app/middlewares/globalErrorhandler";
 import { UserRoutes } from "./app/modules/User/user.route";
 import { AuthRoutes } from "./app/modules/Auth/auth.route";
 import cookieParser from "cookie-parser";
-import { ProjectRoutes } from "./app/modules/Project/project.route";
-import cors from "cors"; // ✅ Import CORS
+import cors from "cors"; 
+import { ProjectRoutes } from "./app/modules/project/project.route";
+import { TeamRoutes } from "./app/modules/Team/team.routes";
 
 const app: Application = express();
 

@@ -11,17 +11,14 @@ const teamSchema = new Schema<TTeam, TeamModel>(
     },
     teamLeaderEmail: {
       type: String,
-      ref: 'User',
       required: [true, 'Team leader email is required'],
     },
     teamColeaderEmail: {
       type: String,
-      ref: 'User',
       default: null,
     },
     teamMembersEmails: {
       type: [String],
-      ref: 'User',
       default: [],
     },
   },
