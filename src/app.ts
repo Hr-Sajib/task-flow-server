@@ -28,7 +28,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/project", ProjectRoutes);
 app.use("/api/user", UserRoutes);
 app.use("/api/auth", AuthRoutes);
-app.use("/team", TeamRoutes)
+app.use("/api/team", TeamRoutes)
 
 app.use(globalErrorHandler);
 

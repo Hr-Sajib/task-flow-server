@@ -12,7 +12,7 @@ const createTeam = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: 'User created successfsully',
+      message: 'Team created successfsully',
       data: result,
     });
   });
