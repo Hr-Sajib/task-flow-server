@@ -31,10 +31,15 @@ const updateUser = catchAsync(async(req: Request, res: Response) => {
 
 })
 
+// const deleteUser = catchAsync(async(req: Request, res: Response) => {
+//   const {id}
+// })
+
 
 
 export const UserControllers = {
   createUser,
   updateUser,
-  getAllUsers
+  getAllUsers,
+  //deleteUser
 };
