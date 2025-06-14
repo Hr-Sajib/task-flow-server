@@ -4,6 +4,7 @@ import { UserRoutes } from "./app/modules/User/user.route";
 import { AuthRoutes } from "./app/modules/Auth/auth.route";
 import cookieParser from 'cookie-parser';
 import { ProjectRoutes } from "./app/modules/project/project.route";
+import { TeamRoutes } from "./app/modules/Team/team.routes";
 
 // import cors from "cors";
 const app: Application = express();
@@ -27,6 +28,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/project", ProjectRoutes);
 app.use("/api/user", UserRoutes);
 app.use("/api/auth", AuthRoutes);
+app.use("/team", TeamRoutes)
 
 app.use(globalErrorHandler);
 
