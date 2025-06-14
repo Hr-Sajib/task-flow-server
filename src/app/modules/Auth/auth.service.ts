@@ -5,16 +5,16 @@ import bcrypt from "bcrypt";
 import { User } from "../User/user.model";
 import { createToken, verifyToken } from "../../utils/auth.utils";
 
-const loginUserIntoDB = async (payload: { email: string; password: string }) => {
+const loginUserIntoDB = async (payload: { userEmail: string; userPassword: string }) => {
   // Check if user exists with email
-  const user = await User.findOne({ userEmail: payload.email }).select("+userPassword");
+  const user = await User.findOne({ userEmail: payload.userEmail }).select("+userPassword");
 
   if (!user) {
     throw new AppError(httpStatus.UNAUTHORIZED, "User not found");
   }
 
   // Verify password
-  const isPasswordValid = await bcrypt.compare(payload.password, user.userPassword);
+  const isPasswordValid = await bcrypt.compare(payload.userPassword, user.userPassword);
   if (!isPasswordValid) {
     throw new AppError(httpStatus.UNAUTHORIZED, "Invalid password");
   }
