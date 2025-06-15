@@ -9,6 +9,11 @@ const teamSchema = new Schema<TTeam, TeamModel>(
       unique: true,
       trim: true,
     },
+    teamID: {
+      type: String,
+      required: [true, 'Team ID is required'],
+      unique: true,
+    },
     teamLeaderEmail: {
       type: String,
       required: [true, 'Team leader email is required'],

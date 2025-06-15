@@ -2,6 +2,7 @@ import { Model } from 'mongoose';
 
 export type TTeam = {
   teamName: string;
+  teamID: string;
   teamLeaderEmail: string;
   teamColeaderEmail?: string;
   teamMembersEmails: string[];

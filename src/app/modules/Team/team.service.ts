@@ -99,6 +99,110 @@ const createTeamIntoDB = async (payload: TTeam) => {
     }
   };
   
-  
+  const getAllTeamsFromDB = async () => {
+    const result = await Team.find()
 
-export const TeamServices = {createTeamIntoDB, moveTeamMemberFromDB}
+    return result
+  }
+
+  const updateTeamIntoDB = async (payload: { currentTeamID: string; teamName: string; teamID: string }) => {
+    const { currentTeamID, teamName, teamID } = payload;
+  
+    // Check if the team exists using currentTeamID
+    const existingTeam = await Team.findOne({ teamID: currentTeamID });
+    if (!existingTeam) {
+      throw new Error(`Team with teamID "${currentTeamID}" not found.`);
+    }
+  
+    // Check if the new teamName is taken by another team
+    const isNameTaken = await Team.findOne({
+      teamName,
+      _id: { $ne: existingTeam._id },
+    });
+    if (isNameTaken) {
+      throw new Error(`Team name "${teamName}" is already taken.`);
+    }
+  
+    // Check if the new teamID is taken by another team
+    const isTeamIDTaken = await Team.findOne({
+      teamID,
+      _id: { $ne: existingTeam._id },
+    });
+    if (isTeamIDTaken) {
+      throw new Error(`Team ID "${teamID}" is already taken.`);
+    }
+  
+    // Perform the update
+    const updatedTeam = await Team.findOneAndUpdate(
+      { teamID: currentTeamID },
+      { teamName, teamID },
+      { new: true, runValidators: true }
+    );
+  
+    return updatedTeam;
+  };
+
+  const changeLeaderFromDB = async (payload: { teamID: string; newLeaderEmail: string }) => {
+    const { teamID, newLeaderEmail } = payload;
+  
+    // Check if the team exists
+    const team = await Team.findOne({ teamID });
+    if (!team) {
+      throw new Error(`Team with ID "${teamID}" not found.`);
+    }
+  
+    // Check if the new leader exists in User DB
+    const user = await User.findOne({ userEmail: newLeaderEmail });
+    if (!user) {
+      throw new Error(`User with email "${newLeaderEmail}" not found.`);
+    }
+  
+    if (team.teamLeaderEmail === newLeaderEmail) {
+      throw new Error(`"${newLeaderEmail}" is already the team leader.`);
+    }
+  
+    // Update leader 
+    team.teamLeaderEmail = newLeaderEmail;
+    const updatedTeam = await team.save();
+  
+    return updatedTeam;
+  };  
+  
+  const changeCoLeaderFromDB = async (payload: { teamID: string; newCoLeaderEmail: string }) => {
+    const { teamID, newCoLeaderEmail } = payload;
+  
+    // Check if the team exists
+    const team = await Team.findOne({ teamID });
+    if (!team) {
+      throw new Error(`Team with ID "${teamID}" not found.`);
+    }
+  
+    // Check if user with provided email exists
+    const user = await User.findOne({ userEmail: newCoLeaderEmail });
+    if (!user) {
+      throw new Error(`User with email "${newCoLeaderEmail}" not found.`);
+    }
+  
+    if (team.teamLeaderEmail === newCoLeaderEmail) {
+      throw new Error(`"${newCoLeaderEmail}" is already the team leader.`);
+    }
+
+    if (team.teamColeaderEmail === newCoLeaderEmail) {
+      throw new Error(`"${newCoLeaderEmail}" is already the team co-leader.`);
+    }
+  
+    // Update co-leader
+    team.teamColeaderEmail = newCoLeaderEmail;
+    const updatedTeam = await team.save();
+  
+    return updatedTeam;
+  };
+  
+ 
+  const deleteTeamFromDB = async (id: string) => {
+    const result = await Team.deleteOne({ _id: id });
+
+    return result
+  }
+
+export const TeamServices = {createTeamIntoDB, moveTeamMemberFromDB, getAllTeamsFromDB,updateTeamIntoDB, changeLeaderFromDB, changeCoLeaderFromDB, deleteTeamFromDB}
