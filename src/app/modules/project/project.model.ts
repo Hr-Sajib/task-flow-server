@@ -24,6 +24,10 @@ const projectSchema = new Schema<IProject>(
       type: Number,
       required: [true, "Project value ammount is required"],
     },
+    projectDescription: {
+      type: String,
+      required: [true, "Project description is required"],
+    },
     deadline: {
       type: Date,
       required: [true, "Deadline is required"],

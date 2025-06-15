@@ -6,7 +6,7 @@ let io: Server;
 export const initSocket = (httpServer: any) => {
   io = new Server(httpServer, {
     cors: {
-      origin: "*", // Adjust CORS for your frontend URL in production
+      origin: "*", 
       methods: ["GET", "POST"],
     },
   });

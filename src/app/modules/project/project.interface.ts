@@ -2,6 +2,7 @@ export interface IProject {
     _id: string;
     projectId: string;
     projectName: string;
+    projectDescription: string;
     station: string;
     clientId: string;
     projectValue: number;
