@@ -27,6 +27,9 @@ const createProjectSchema = z.object({
   liveLink: z.string().optional(),
   deliveryDate: z.date().optional(),
   requirementDoc: z.string().optional(),
+  projectDescription: z.string()
+    .min(40, "Project description must be at least 40 characters")
+    .max(50, "Project description must be at most 50 characters"),
   notes: z.array(
     z.object({
       noteProvider: z.string(),
@@ -59,6 +62,10 @@ const updateProjectSchema = z.object({
   liveLink: z.string().optional(),
   deliveryDate: z.date().optional(),
   requirementDoc: z.string().optional(),
+  projectDescription: z.string()
+    .min(30, "Project description must be at least 30 characters")
+    .max(40, "Project description must be at most 40 characters")
+    .optional(),
   notes: z.array(
     z.object({
       noteProvider: z.string(),
