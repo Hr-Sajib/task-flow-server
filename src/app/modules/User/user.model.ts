@@ -68,6 +68,7 @@ userSchema.statics.isUserExist = async function (name: string, email: string) {
 };
 
 userSchema.statics.isUserExistByEmail = async function (email: string) {
+  console.log(email)
   return await User.findOne({ email }).select('+userPassword');
 };
 
