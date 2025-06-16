@@ -3,61 +3,116 @@ import { User } from "../User/user.model";
 import { TTeam } from "./team.interface";
 import { Team } from "./team.model";
 
-const createTeamIntoDB = async (payload: TTeam) => {
-    const { teamID, teamName, teamLeaderEmail, teamColeaderEmail, teamMembersEmails } = payload;
+// const createTeamIntoDB = async (payload: TTeam) => {
+//     const { teamID, teamName, teamLeaderEmail, teamColeaderEmail, teamMembersEmails } = payload;
   
-    const isTeamExist = await Team.findOne({ teamName });
-    if (isTeamExist) {
-      throw new Error(`Team with name "${teamName}" already exists.`);
-    }
+//     const isTeamExist = await Team.findOne({ teamName });
+//     if (isTeamExist) {
+//       throw new Error(`Team with name "${teamName}" already exists.`);
+//     }
 
-    const isTeamIDExist = await Team.findOne({ teamID });
-    if (isTeamIDExist) {
-      throw new Error(`Team with ID "${teamID}" already exists.`);
-    }
+//     const isTeamIDExist = await Team.findOne({ teamID });
+//     if (isTeamIDExist) {
+//       throw new Error(`Team with ID "${teamID}" already exists.`);
+//     }
   
-    const emailSet = new Set(teamMembersEmails);
-    if (emailSet.has(teamLeaderEmail)) {
-      throw new Error("Team leader's email cannot be in team members list.");
-    }
-    if (teamColeaderEmail && emailSet.has(teamColeaderEmail)) {
-      throw new Error("Team co-leader's email cannot be in team members list.");
-    }
+//     // const emailSet = new Set(teamMembersEmails);
+//     // if (emailSet.has(teamLeaderEmail)) {
+//     //   throw new Error("Team leader's email cannot be in team members list.");
+//     // }
+
+//     // if (teamColeaderEmail && emailSet.has(teamColeaderEmail)) {
+//     //   throw new Error("Team co-leader's email cannot be in team members list.");
+//     // }
   
-    // Check leader email exists
-    const isExistTeamLeaderEmail = await User.findOne({ userEmail: teamLeaderEmail });
-    console.log(isExistTeamLeaderEmail)
-    if (!isExistTeamLeaderEmail) {
-      throw new Error(`Team leader email "${teamLeaderEmail}" not found in database.`);
+//     // Check leader email exists
+//     const isExistTeamLeaderEmail = await User.findOne({ userEmail: teamLeaderEmail });
+//     console.log(isExistTeamLeaderEmail)
+//     if (!isExistTeamLeaderEmail) {
+//       throw new Error(`Team leader email "${teamLeaderEmail}" not found in database.`);
+//     }
+  
+//     // Check co-leader email exists (if provided)
+//     if (teamColeaderEmail) {
+//       const isExistTeamColeaderEmail = await User.findOne({ userEmail: teamColeaderEmail });
+//       if (!isExistTeamColeaderEmail) {
+//         throw new Error(`Team co-leader email "${teamColeaderEmail}" not found in database.`);
+//       }
+//     }
+  
+//     // Check all team members emails exist
+//     for (const memberEmail of teamMembersEmails) {
+//       const isExistMemberEmail = await User.findOne({ userEmail: memberEmail });
+//       if (!isExistMemberEmail) {
+//         throw new Error(`Team member email "${memberEmail}" not found in database.`);
+//       }
+//     }
+  
+//     // Create the new team after validation
+//     const newTeam = await Team.create({
+//       teamName,
+//       teamID,
+//       teamLeaderEmail,
+//       teamColeaderEmail,
+//       teamMembersEmails,
+//     });
+  
+//     return newTeam;
+//   };
+
+const createTeamIntoDB = async (payload: TTeam) => {
+  const { teamID, teamName, teamLeaderEmail, teamColeaderEmail, teamMembersEmails } = payload;
+
+  const isTeamExist = await Team.findOne({ teamName });
+  if (isTeamExist) {
+    throw new Error(`Team with name "${teamName}" already exists.`);
+  }
+
+  const isTeamIDExist = await Team.findOne({ teamID });
+  if (isTeamIDExist) {
+    throw new Error(`Team with ID "${teamID}" already exists.`);
+  }
+
+  const emailSet = new Set(teamMembersEmails);
+
+  if (!emailSet.has(teamLeaderEmail)) {
+    throw new Error(`Team leader email "${teamLeaderEmail}" must be in teamMembersEmails array.`);
+  }
+
+  if (teamColeaderEmail && !emailSet.has(teamColeaderEmail)) {
+    throw new Error(`Team co-leader email "${teamColeaderEmail}" must be in teamMembersEmails array.`);
+  }
+
+  const isExistTeamLeaderEmail = await User.findOne({ userEmail: teamLeaderEmail });
+  if (!isExistTeamLeaderEmail) {
+    throw new Error(`Team leader email "${teamLeaderEmail}" not found in database.`);
+  }
+
+  if (teamColeaderEmail) {
+    const isExistTeamColeaderEmail = await User.findOne({ userEmail: teamColeaderEmail });
+    if (!isExistTeamColeaderEmail) {
+      throw new Error(`Team co-leader email "${teamColeaderEmail}" not found in database.`);
     }
-  
-    // Check co-leader email exists (if provided)
-    if (teamColeaderEmail) {
-      const isExistTeamColeaderEmail = await User.findOne({ userEmail: teamColeaderEmail });
-      if (!isExistTeamColeaderEmail) {
-        throw new Error(`Team co-leader email "${teamColeaderEmail}" not found in database.`);
-      }
+  }
+
+  for (const memberEmail of teamMembersEmails) {
+    const isExistMemberEmail = await User.findOne({ userEmail: memberEmail });
+    if (!isExistMemberEmail) {
+      throw new Error(`Team member email "${memberEmail}" not found in database.`);
     }
-  
-    // Check all team members emails exist
-    for (const memberEmail of teamMembersEmails) {
-      const isExistMemberEmail = await User.findOne({ userEmail: memberEmail });
-      if (!isExistMemberEmail) {
-        throw new Error(`Team member email "${memberEmail}" not found in database.`);
-      }
-    }
-  
-    // Create the new team after validation
-    const newTeam = await Team.create({
-      teamName,
-      teamID,
-      teamLeaderEmail,
-      teamColeaderEmail,
-      teamMembersEmails,
-    });
-  
-    return newTeam;
-  };
+  }
+
+  const newTeam = await Team.create({
+    teamName,
+    teamID,
+    teamLeaderEmail,
+    teamColeaderEmail,
+    teamMembersEmails,
+  });
+
+  return newTeam;
+};
+
 
   const moveTeamMemberFromDB = async (payload: { memberEmail: string; toTeamName: string }) => {
     const { memberEmail, toTeamName } = payload;
