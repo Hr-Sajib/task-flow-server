@@ -4,11 +4,16 @@ import { TTeam } from "./team.interface";
 import { Team } from "./team.model";
 
 const createTeamIntoDB = async (payload: TTeam) => {
-    const { teamName, teamLeaderEmail, teamColeaderEmail, teamMembersEmails } = payload;
+    const { teamID, teamName, teamLeaderEmail, teamColeaderEmail, teamMembersEmails } = payload;
   
     const isTeamExist = await Team.findOne({ teamName });
     if (isTeamExist) {
       throw new Error(`Team with name "${teamName}" already exists.`);
+    }
+
+    const isTeamIDExist = await Team.findOne({ teamID });
+    if (isTeamIDExist) {
+      throw new Error(`Team with ID "${teamID}" already exists.`);
     }
   
     const emailSet = new Set(teamMembersEmails);
@@ -45,6 +50,7 @@ const createTeamIntoDB = async (payload: TTeam) => {
     // Create the new team after validation
     const newTeam = await Team.create({
       teamName,
+      teamID,
       teamLeaderEmail,
       teamColeaderEmail,
       teamMembersEmails,

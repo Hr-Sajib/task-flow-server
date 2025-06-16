@@ -3,6 +3,8 @@ import AppError from "../../errors/AppError";
 import { TUser } from "./user.interface";
 import config from "../../../config";
 import { User } from "./user.model";
+import { Team } from "../Team/team.model";
+import mongoose from "mongoose";
 
 const createUserIntoDB = async (payLoad: TUser) => {
   const {
@@ -109,9 +111,70 @@ const updateUserIntoDB = async (user: any, payload: any) => {
   return updatedUser;
 };
 
+// const deleteUserIntoDB = async (id: string) => {
+//   const result = await User.deleteOne({ _id: id });
+//   return result;
+// };
+
 const deleteUserIntoDB = async (id: string) => {
-  const result = await User.deleteOne({ _id: id });
-  return result;
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const user = await User.findById(id).session(session);
+    if (!user) {
+      throw new AppError(httpStatus.NOT_FOUND, "User not found");
+    }
+
+    const userEmail = user.userEmail;
+
+    await Team.updateMany(
+      {
+        $or: [
+          { teamLeaderEmail: userEmail },
+          { teamColeaderEmail: userEmail },
+        ],
+      },
+      [
+        {
+          $set: {
+            teamLeaderEmail: {
+              $cond: [{ $eq: ["$teamLeaderEmail", userEmail] }, null, "$teamLeaderEmail"],
+            },
+            teamColeaderEmail: {
+              $cond: [{ $eq: ["$teamColeaderEmail", userEmail] }, null, "$teamColeaderEmail"],
+            },
+          },
+        },
+      ],
+      { session }
+    );
+
+    // Remove from teamMembersEmails
+    await Team.updateMany(
+      {
+        teamMembersEmails: userEmail,
+      },
+      {
+        $pull: {
+          teamMembersEmails: userEmail,
+        },
+      },
+      { session }
+    );
+
+    // Delete the user
+    const result = await User.deleteOne({ _id: id }).session(session);
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return result;
+  } catch (err) {
+    await session.abortTransaction();
+    session.endSession();
+    throw err;
+  }
 };
 
 
