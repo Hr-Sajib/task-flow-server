@@ -1,0 +1,1 @@
+export const USER_ROLE = { user: 'user', admin: 'admin', teamLeader: 'teamLeader', teamColeader: 'teamColeader', teamMember: 'teamMember', client: 'client' } as const;
