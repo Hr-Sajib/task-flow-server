@@ -97,31 +97,6 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
 
 
 
-
-
-
-const updateProjectbyTeam = catchAsync(async (req: Request, res: Response) => {
-  
-  const reqBody = req.body;
-  let updatedData;
-  const loggedInUserEmail = req.user?.userEmail;
-
-  console.log("loggedin user email: ", req?.user?.userEmail)
-  
-  
-  
-  const projectId = req.params.projectId;
-  const project = await ProjectService.getProjectByIdFromDB(projectId);
-  if (!project) {
-    throw new AppError(
-      httpStatus.NOT_FOUND,
-      `No project found with ID: ${projectId}`
-    );
-  }
-  
-
-
-
   // const updatedProject = await ProjectService.updateProjectInDB(
   //   projectId,
   //   updatedData
@@ -136,7 +111,7 @@ const updateProjectbyTeam = catchAsync(async (req: Request, res: Response) => {
   //   message: "Project updated successfully",
   //   data: updatedProject,
   // });
-});
+// });
 
 
 
@@ -145,5 +120,4 @@ export const ProjectController = {
   getAllProjects,
   getProjectById,
   updateProject,
-  updateProjectbyTeam
 };
