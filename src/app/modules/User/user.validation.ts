@@ -13,9 +13,7 @@ const createUserValidationSchema = z.object({
       .string({ required_error: "Email is required" })
       .email("Invalid email format"),
 
-    userRole: z.enum(userRoles, {
-      required_error: "User role is required",
-    }),
+    userRole: z.enum(userRoles).default('user'),
 
     userJoiningDate: z
       .string({ required_error: "Joining date is required" })
@@ -39,7 +37,7 @@ const createUserValidationSchema = z.object({
       .max(40, "Address must be at most 40 characters")
       .optional(),
 
-    phone: z
+    userPhone: z
       .string()
       .min(8, "Phone number must be at least 8 characters long")
       .optional(),
@@ -91,7 +89,7 @@ const updateUserValidationSchema = z.object({
     .max(40, "Address must be at most 40 characters")
     .optional(),
 
-  phone: z
+  userPhone: z
     .string()
     .min(8, "Phone number must be at least 8 characters long")
     .optional(),

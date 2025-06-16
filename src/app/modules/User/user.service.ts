@@ -15,7 +15,7 @@ const createUserIntoDB = async (payLoad: TUser) => {
     userPassword,
     userRole,
     address,
-    phone,
+    userPhone,
     photo,
   } = payLoad;
 
@@ -50,7 +50,7 @@ const createUserIntoDB = async (payLoad: TUser) => {
     userPassword,
     userEmployeeId,
     address,
-    phone,
+    userPhone,
     photo,
   };
 

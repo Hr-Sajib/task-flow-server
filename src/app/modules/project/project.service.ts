@@ -36,6 +36,8 @@ const getProjectByIdFromDB = async (projectId: string) => {
   return await ProjectModel.findOne({ projectId: projectId });
 };
 
+
+
 const updateProjectInDB = async (projectId: string, updatedData: Partial<IProject>) => {
   if (
     updatedData.projectStatus === "cancelled" &&
@@ -50,6 +52,9 @@ const updateProjectInDB = async (projectId: string, updatedData: Partial<IProjec
     { new: true }
   );
 };
+
+
+
 
 
 export const ProjectService = {

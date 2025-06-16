@@ -11,7 +11,7 @@ export type TUser = {
   userPassword: string;
   userEmployeeId?: string;
   address?: string;
-  phone?: string;
+  userPhone?: string;
   photo?: string;
 };
 
