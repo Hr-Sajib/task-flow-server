@@ -14,7 +14,7 @@ router.patch("/", auth('admin'), TeamControllers.updateTeam)
 
 router.patch("/change-leader", auth('admin'), TeamControllers.changeLeader)
 
-router.patch("/", auth('admin', 'teamLeader'), TeamControllers.changeCoLeader)
+router.patch("/change-coleader", auth('admin', 'teamLeader'), TeamControllers.changeCoLeader)
 
 router.delete("/:id",  auth('admin'), TeamControllers.deleteTeam)
 
