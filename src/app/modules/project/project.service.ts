@@ -37,25 +37,25 @@ const getProjectByIdFromDB = async (projectId: string) => {
 };
 
 const updateProjectInDB = async (projectId: string, updatedData: Partial<IProject>) => {
+  if (
+    updatedData.projectStatus === "cancelled" &&
+    (!updatedData.cancellationNote || updatedData.cancellationNote.trim() === "")
+  ) {
+    throw new AppError(400, "Cannot cancel project without cancellation note");
+  }
+
   return await ProjectModel.findOneAndUpdate(
-    { projectId: projectId },
+    { projectId },
     { $set: updatedData },
     { new: true }
   );
 };
 
-const cancelProjectInDB = async (projectId: string, cancellationNote: string) => {
-  return await ProjectModel.findOneAndUpdate(
-    { projectId: projectId },
-    { $set: { projectStatus: "cancelled", cancellationNote } },
-    { new: true }
-  );
-};
 
 export const ProjectService = {
   createProjectIntoDB,
   getAllProjectsFromDB,
   getProjectByIdFromDB,
   updateProjectInDB,
-  cancelProjectInDB,
+
 };

@@ -62,7 +62,7 @@ const projectSchema = new Schema<IProject>(
     },
     projectStatus: {
       type: String,
-      enum: ["ui/ux", "wip", "new", "qa", "delivered", "revision"],
+      enum: ["ui/ux", "wip", "new", "qa", "delivered", "revision", "cancelled"],
       default: "new",
     },
     estimatedDelivery: {

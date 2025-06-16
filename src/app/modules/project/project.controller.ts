@@ -4,12 +4,19 @@ import { ProjectService } from "./project.service";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import AppError from "../../errors/AppError";
+import { UserServices } from "../User/user.service";
 
 const createProject = catchAsync(async (req: Request, res: Response) => {
   const project = req.body;
+
+  const clientData = await UserServices.getSingleUserFromDB(project.clientId);
+  if (!clientData) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Client does not exist by this Id!");
+  }
+
   const result = await ProjectService.createProjectIntoDB(project);
 
-  if(!result){
+  if (!result) {
     throw new AppError(httpStatus.BAD_REQUEST, "Project not created!");
   }
 
@@ -24,7 +31,7 @@ const createProject = catchAsync(async (req: Request, res: Response) => {
 const getAllProjects = catchAsync(async (req: Request, res: Response) => {
   const result = await ProjectService.getAllProjectsFromDB(req.query);
 
-  if(!result){
+  if (!result) {
     throw new AppError(httpStatus.BAD_REQUEST, "Projects not read!");
   }
 
@@ -41,7 +48,10 @@ const getProjectById = catchAsync(async (req: Request, res: Response) => {
 
   const result = await ProjectService.getProjectByIdFromDB(projectId);
   if (!result) {
-    throw new AppError(httpStatus.NOT_FOUND, `No project found with ID: ${projectId}`);
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      `No project found with ID: ${projectId}`
+    );
   }
 
   sendResponse(res, {
@@ -58,10 +68,16 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
 
   const project = await ProjectService.getProjectByIdFromDB(projectId);
   if (!project) {
-    throw new AppError(httpStatus.NOT_FOUND, `No project found with ID: ${projectId}`);
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      `No project found with ID: ${projectId}`
+    );
   }
 
-  const updatedProject = await ProjectService.updateProjectInDB(projectId, updatedData);
+  const updatedProject = await ProjectService.updateProjectInDB(
+    projectId,
+    updatedData
+  );
   if (!updatedProject) {
     throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Project not updated");
   }
@@ -74,36 +90,11 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const cancelProject = catchAsync(async (req: Request, res: Response) => {
-  const projectId = req.params.projectId;
-  const { cancellationNote } = req.body;
 
-  if (!cancellationNote) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Cancellation note is required");
-  }
-
-  const project = await ProjectService.getProjectByIdFromDB(projectId);
-  if (!project) {
-    throw new AppError(httpStatus.NOT_FOUND, `No project found with ID: ${projectId}`);
-  }
-
-  const result = await ProjectService.cancelProjectInDB(projectId, cancellationNote);
-  if (!result) {
-    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Project cancellation failed");
-  }
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Project canceled successfully",
-    data: result,
-  });
-});
 
 export const ProjectController = {
   createProject,
   getAllProjects,
   getProjectById,
   updateProject,
-  cancelProject,
 };
