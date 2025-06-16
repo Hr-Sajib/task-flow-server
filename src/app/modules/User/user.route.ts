@@ -32,4 +32,10 @@ import auth from '../../middlewares/auth';
      UserControllers.updateUser,
    );
 
+   router.patch(
+     '/change-password',
+      auth("user", "admin", "teamLeader", "teamColeader", "teamMember", "client"),
+     UserControllers.changePassword,
+   );
+
    export const UserRoutes = router;
