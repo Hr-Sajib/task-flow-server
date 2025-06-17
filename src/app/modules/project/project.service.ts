@@ -39,6 +39,7 @@ const getProjectByIdFromDB = async (projectId: string) => {
 
 
 const updateProjectInDB = async (projectId: string, updatedData: Partial<IProject>) => {
+  
   if (
     updatedData.projectStatus === "cancelled" &&
     (!updatedData.cancellationNote || updatedData.cancellationNote.trim() === "")
@@ -52,6 +53,7 @@ const updateProjectInDB = async (projectId: string, updatedData: Partial<IProjec
     { new: true }
   );
 };
+
 
 const cancelProjectIntoDB = async (projectId: string, cancellationNote: string) => {
   const project = await ProjectModel.findOneAndUpdate(

@@ -62,12 +62,55 @@ const getProjectById = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+const cancelProject = catchAsync(async (req: Request, res: Response) => {
+  const { cancellationNote } = req.body;
+  const { projectId } = req.params;
+
+  if(!cancellationNote){
+      throw new AppError(httpStatus.BAD_REQUEST, "Cancellation note is required");
+  }
+
+  const result = await ProjectService.cancelProjectIntoDB(projectId, cancellationNote);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Project cancelled successfully',
+    data: result,
+  });
+});
+
+
+
 const updateProject = catchAsync(async (req: Request, res: Response) => {
   const projectId = req.params.projectId;
   const updatedData = req.body;
-  console.log("loggedin user email: ", req)
+  console.log("loggedin user email: ", req.user);
 
-  if (updatedData.projectStatus=='cancelled' && !updatedData.cancellationNote) {
+  // Define core project identification fields
+  const coreFields = [
+    "projectId",
+    "projectName",
+    "projectDescription",
+    "station",
+    "clientId",
+    "projectValue",
+    "deadline",
+  ];
+
+  // Check if user is not admin and attempting to update core fields
+  if (req.user?.userRole !== "admin") {
+    const restrictedFields = coreFields.filter((field) => updatedData[field] !== undefined);
+    if (restrictedFields.length > 0) {
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        "Only admin can update core project identification fields!"
+      );
+    }
+  }
+
+  if (updatedData.projectStatus === "cancelled" && !updatedData.cancellationNote) {
     throw new AppError(httpStatus.BAD_REQUEST, "Cancellation note is required");
   }
 
@@ -94,42 +137,6 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
     data: updatedProject,
   });
 });
-
-const cancelProject = catchAsync(async (req: Request, res: Response) => {
-  const { cancellationNote } = req.body;
-  const { projectId } = req.params;
-
-  if(!cancellationNote){
-      throw new AppError(httpStatus.BAD_REQUEST, "Cancellation note is required");
-  }
-
-  const result = await ProjectService.cancelProjectIntoDB(projectId, cancellationNote);
-
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: 'Project cancelled successfully',
-    data: result,
-  });
-});
-
-
-  // const updatedProject = await ProjectService.updateProjectInDB(
-  //   projectId,
-  //   updatedData
-  // );
-  // if (!updatedProject) {
-  //   throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, "Project not updated");
-  // }
-
-  // sendResponse(res, {
-  //   statusCode: httpStatus.OK,
-  //   success: true,
-  //   message: "Project updated successfully",
-  //   data: updatedProject,
-  // });
-// });
-
 
 
 export const ProjectController = {
