@@ -67,6 +67,10 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
   const updatedData = req.body;
   console.log("loggedin user email: ", req)
 
+  if (updatedData.projectStatus=='cancelled' && !updatedData.cancellationNote) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Cancellation note is required");
+  }
+
   const project = await ProjectService.getProjectByIdFromDB(projectId);
   if (!project) {
     throw new AppError(
