@@ -2,6 +2,7 @@ import express from "express";
 import { ProjectController } from "./project.controller";
 import validateRequest from "../../middlewares/validateRequest";
 import { ProjectValidation } from "./project.validation";
+import auth from "../../middlewares/auth";
 const router = express.Router();
 
 router.post("/",
@@ -21,6 +22,10 @@ router.get("/:projectId",
 router.patch("/:projectId",
     // auth("admin", "teamLeader", "teamColeader"),
     ProjectController.updateProject);
+
+router.patch("/team/:projectId",
+    auth("teamLeader", "teamColeader"),
+    ProjectController.updateProjectbyTeam);
 
 
 export const ProjectRoutes = router;

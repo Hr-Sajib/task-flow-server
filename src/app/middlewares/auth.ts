@@ -35,7 +35,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
       throw new AppError(httpStatus.UNAUTHORIZED, "Token verification failed");
     }
 
-    const { role, userEmail } = decoded;
+    const { userRole, userEmail } = decoded;
 
     console.log("decoded in auth: ",decoded)
  
@@ -46,7 +46,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
     }
 
     // Check role
-    if (requiredRoles && !requiredRoles.includes(role)) {
+    if (requiredRoles && !requiredRoles.includes(userRole)) {
       throw new AppError(httpStatus.UNAUTHORIZED, "Insufficient role permissions");
     }
 

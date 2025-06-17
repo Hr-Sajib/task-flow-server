@@ -57,10 +57,10 @@ const updateProjectInDB = async (projectId: string, updatedData: Partial<IProjec
 
 
 
+
 export const ProjectService = {
   createProjectIntoDB,
   getAllProjectsFromDB,
   getProjectByIdFromDB,
   updateProjectInDB,
-
 };
