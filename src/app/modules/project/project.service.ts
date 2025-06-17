@@ -53,6 +53,20 @@ const updateProjectInDB = async (projectId: string, updatedData: Partial<IProjec
   );
 };
 
+const cancelProjectIntoDB = async (projectId: string, cancellationNote: string) => {
+  const project = await ProjectModel.findOneAndUpdate(
+    { projectId },
+    { $set: { projectStatus: 'cancelled', cancellationNote } },
+    { new: true, runValidators: true }
+  );
+
+  if (!project) {
+    throw new Error('Project not found');
+  }
+
+  return project;
+};
+
 
 
 export const ProjectService = {
@@ -60,4 +74,5 @@ export const ProjectService = {
   getAllProjectsFromDB,
   getProjectByIdFromDB,
   updateProjectInDB,
+  cancelProjectIntoDB
 };

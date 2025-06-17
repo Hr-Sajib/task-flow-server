@@ -23,9 +23,9 @@ router.patch("/:projectId",
     // auth("admin", "teamLeader", "teamColeader"),
     ProjectController.updateProject);
 
-// router.patch("/team/:projectId",
-//     auth("teamLeader", "teamColeader"),
-//     ProjectController.updateProjectbyTeam);
+router.patch("/:projectId/cancel",
+    // auth("admin"),
+    ProjectController.cancelProject);
 
 
 export const ProjectRoutes = router;

@@ -95,6 +95,23 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const cancelProject = catchAsync(async (req: Request, res: Response) => {
+  const { cancellationNote } = req.body;
+  const { projectId } = req.params;
+
+  if(!cancellationNote){
+      throw new AppError(httpStatus.BAD_REQUEST, "Cancellation note is required");
+  }
+
+  const result = await ProjectService.cancelProjectIntoDB(projectId, cancellationNote);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Project cancelled successfully',
+    data: result,
+  });
+});
 
 
   // const updatedProject = await ProjectService.updateProjectInDB(
@@ -120,4 +137,5 @@ export const ProjectController = {
   getAllProjects,
   getProjectById,
   updateProject,
+  cancelProject
 };
