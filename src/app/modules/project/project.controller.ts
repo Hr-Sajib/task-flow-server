@@ -4,6 +4,9 @@ import { ProjectService } from "./project.service";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import AppError from "../../errors/AppError";
+import { TeamServices } from "../Team/team.service";
+import { ProjectModel } from "./project.model";
+import { Team } from "../Team/team.model";
 
 const createProject = catchAsync(async (req: Request, res: Response) => {
   const project = req.body;
@@ -56,6 +59,10 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
   const projectId = req.params.projectId;
   const updatedData = req.body;
 
+  if (updatedData.projectStatus=='cancelled' && !updatedData.cancellationNote) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Cancellation note is required");
+  }
+
   const project = await ProjectService.getProjectByIdFromDB(projectId);
   if (!project) {
     throw new AppError(httpStatus.NOT_FOUND, `No project found with ID: ${projectId}`);
@@ -99,6 +106,9 @@ const cancelProject = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+
+
 
 export const ProjectController = {
   createProject,

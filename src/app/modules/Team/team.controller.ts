@@ -3,6 +3,9 @@ import sendResponse from "../../utils/sendResponse";
 import  httpStatus  from 'http-status';
 import { Request, Response } from 'express';
 import { TeamServices } from "./team.service";
+import { ProjectModel } from "../Project/project.model";
+import AppError from "../../errors/AppError";
+import { Team } from "./team.model";
 
 const createTeam = catchAsync(async (req: Request, res: Response) => {
     const body = req.body;
@@ -83,4 +86,40 @@ const deleteTeam = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
-export const TeamControllers = {createTeam, moveMember, getAllTeam, updateTeam, changeLeader,changeCoLeader, deleteTeam}
+
+const assignProjectToTeam = catchAsync(async (req: Request, res: Response) => {
+  const { teamName, projectId } = req.body;
+
+  if (!teamName || !projectId) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Team name and Project ID are required!");
+  }
+  
+  
+  const existingProject = await ProjectModel.findOne({ projectId: projectId }).exec();
+  
+  if (!existingProject) {
+    throw new AppError(httpStatus.BAD_REQUEST, `Project with projectId '${projectId}' doesn't exist!`);
+
+  }
+  const existingTeam = await Team.findOne({ teamName: teamName }).exec();
+  
+  if (!existingTeam) {
+    throw new AppError(httpStatus.BAD_REQUEST, `Team with name '${teamName}' doesn't exist!`);
+  }
+
+  const result = await TeamServices.assignProjectToTeam({ teamName, projectId });
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, `Project assignment to team unsuccessful!`);
+  }
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Project assigned to team successfully",
+    data: result,
+  });
+});
+
+export const TeamControllers = {createTeam, moveMember, getAllTeam, updateTeam, changeLeader,changeCoLeader, deleteTeam,  assignProjectToTeam,
+}
