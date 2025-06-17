@@ -53,21 +53,11 @@ const updateProjectInDB = async (projectId: string, updatedData: Partial<IProjec
   );
 };
 
-<<<<<<< HEAD
 
-
-
-
-=======
->>>>>>> project and user module refactored
 
 export const ProjectService = {
   createProjectIntoDB,
   getAllProjectsFromDB,
   getProjectByIdFromDB,
   updateProjectInDB,
-<<<<<<< HEAD
-=======
-
->>>>>>> project and user module refactored
 };
