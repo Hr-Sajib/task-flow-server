@@ -35,18 +35,18 @@ const auth = (...requiredRoles: TUserRole[]) => {
       throw new AppError(httpStatus.UNAUTHORIZED, "Token verification failed");
     }
 
-    const { userRole, userEmail } = decoded;
+    const { role, userEmail } = decoded;
 
     console.log("decoded in auth: ",decoded)
  
     // Check if user exists
-  const user = await User.findOne({ userEmail: userEmail }).select("+userPassword");
+    const user = await User.findOne({ userEmail: userEmail }).select("+userPassword");
     if (!user) {
       throw new AppError(httpStatus.NOT_FOUND, "User not found");
     }
 
     // Check role
-    if (requiredRoles && !requiredRoles.includes(userRole)) {
+    if (requiredRoles && !requiredRoles.includes(role)) {
       throw new AppError(httpStatus.UNAUTHORIZED, "Insufficient role permissions");
     }
 

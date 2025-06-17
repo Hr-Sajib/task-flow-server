@@ -20,7 +20,7 @@ router.get("/:projectId",
      ProjectController.getProjectById);
 
 router.patch("/:projectId",
-    // auth("admin", "teamLeader", "teamColeader"),
+    auth("admin", "teamLeader", "teamColeader"),
     ProjectController.updateProject);
 
 router.patch("/:projectId/cancel",

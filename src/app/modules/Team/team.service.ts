@@ -47,7 +47,7 @@ const createTeamIntoDB = async (payload: TTeam) => {
       userEmail: teamLeaderEmail,
     }).session(session);
     if (!isExistTeamLeaderEmail) {
-      throw new Error(
+      throw new AppError(httpStatus.BAD_REQUEST,
         `Team leader email "${teamLeaderEmail}" not found in database.`
       );
     }
@@ -57,7 +57,7 @@ const createTeamIntoDB = async (payload: TTeam) => {
         userEmail: teamColeaderEmail,
       }).session(session);
       if (!isExistTeamColeaderEmail) {
-        throw new Error(
+        throw new AppError(httpStatus.BAD_REQUEST,
           `Team co-leader email "${teamColeaderEmail}" not found in database.`
         );
       }
@@ -68,17 +68,17 @@ const createTeamIntoDB = async (payload: TTeam) => {
         userEmail: memberEmail,
       }).session(session);
       if (!ExistMemberEmail) {
-        throw new Error(
+        throw new AppError(httpStatus.BAD_REQUEST,
           `Team member email "${memberEmail}" not found in database.`
         );
       }
       if(ExistMemberEmail?.userRole == "client"){
-        throw new Error(
+        throw new AppError(httpStatus.BAD_REQUEST,
           `User with email "${memberEmail}" is a client!`
         );
       }
       if(ExistMemberEmail?.userRole !== "user"){
-        throw new Error(
+        throw new AppError(httpStatus.BAD_REQUEST,
           `Team member "${memberEmail}" is already in a team!`
         );
       }

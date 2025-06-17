@@ -5,6 +5,7 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import AppError from "../../errors/AppError";
 import { UserServices } from "../User/user.service";
+import { Team } from "../Team/team.model";
 
 const createProject = catchAsync(async (req: Request, res: Response) => {
   const project = req.body;
@@ -84,6 +85,8 @@ const cancelProject = catchAsync(async (req: Request, res: Response) => {
 
 
 const updateProject = catchAsync(async (req: Request, res: Response) => {
+
+  console.log("_______c________")
   const projectId = req.params.projectId;
   const updatedData = req.body;
   console.log("loggedin user email: ", req.user);
@@ -97,6 +100,7 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
     "clientId",
     "projectValue",
     "deadline",
+    "teamName"
   ];
 
   // Check if user is not admin and attempting to update core fields
@@ -110,10 +114,6 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
     }
   }
 
-  if (updatedData.projectStatus === "cancelled" && !updatedData.cancellationNote) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Cancellation note is required");
-  }
-
   const project = await ProjectService.getProjectByIdFromDB(projectId);
   if (!project) {
     throw new AppError(
@@ -121,6 +121,28 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
       `No project found with ID: ${projectId}`
     );
   }
+
+
+
+  // Check if user is team leader or co-leader for the assigned team
+  if (project.teamName) {
+    const team = await Team.findOne({ teamName: project.teamName });
+    if (!team) {
+      throw new AppError(httpStatus.BAD_REQUEST, `Team "${project.teamName}" not found`);
+    }
+    const userEmail = req.user?.userEmail;
+    console.log("In ctrl: ",userEmail,team)
+    if (userEmail && userEmail !== team.teamLeaderEmail && userEmail !== team.teamColeaderEmail) {
+      console.log("not in the team")
+      throw new AppError(httpStatus.UNAUTHORIZED, "You are not in the team the project is assigned to or not in leadership!");
+    }
+  }
+
+
+  if (updatedData.projectStatus === "cancelled" && !updatedData.cancellationNote) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Cancellation note is required");
+  }
+
 
   const updatedProject = await ProjectService.updateProjectInDB(
     projectId,
