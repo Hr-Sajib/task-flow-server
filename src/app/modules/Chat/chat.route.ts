@@ -1,8 +1,17 @@
-import express from "express";
+import { Router } from "express";
+
+
 import { ChatController } from "./chat.controller";
+import auth from "../../middlewares/auth";
 
-const router = express.Router();
+const router = Router();
 
-router.get("/:teamId/history", ChatController.getChatHistory);
+router.post("/", auth(), ChatController.accessChat);
+router.get("/", auth(), ChatController.fetchChats);
+router.post("/group", auth(), ChatController.createGroupChat);
+router.put("/rename", auth(), ChatController.renameGroup);
+router.put("/groupremove", auth(), ChatController.removeFromGroup);
+router.put("/groupadd", auth(), ChatController.addToGroup);
 
-export const ChatRoutes = router;
+
+export const ChatRouteoute = router;

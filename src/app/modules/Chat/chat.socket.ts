@@ -1,49 +1,34 @@
+import { Server as HTTPServer } from "http";
 import { Server } from "socket.io";
-import { Chat } from "./chat.model";
 
-let io: Server;
-
-export const initSocket = (httpServer: any) => {
-  io = new Server(httpServer, {
+export const initSocket = (server: HTTPServer) => {
+  const io = new Server(server, {
     cors: {
-      origin: "*", 
-      methods: ["GET", "POST"],
+      origin: "http://localhost:3000", 
+      credentials: true,
     },
   });
 
   io.on("connection", (socket) => {
-    console.log("A user connected:", socket.id);
+    console.log("Connected to socket.io");
 
-    // Join a room based on teamId
-    socket.on("joinRoom", (teamId: string) => {
-      socket.join(teamId);
-      console.log(`User ${socket.id} joined room: ${teamId}`);
+    socket.on("setup", (userData) => {
+      socket.join(userData._id);
+      socket.emit("connected");
     });
 
-    // Handle sending a message
-    socket.on("sendMessage", async (data: { teamId: string; senderEmail: string; message: string }) => {
-      const { teamId, senderEmail, message } = data;
-      const timestamp = new Date();
+    socket.on("join chat", (room) => socket.join(room));
+    socket.on("typing", (room) => socket.in(room).emit("typing"));
+    socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
-      // Save message to database
-      const newMessage = await Chat.create({ teamId, senderEmail, message, timestamp });
+    socket.on("new message", (message) => {
+      const chat = message.chat;
+      if (!chat.users) return;
 
-      // Emit message to all users in the room
-      io.to(teamId).emit("receiveMessage", {
-        _id: newMessage._id,
-        teamId,
-        senderEmail,
-        message,
-        timestamp,
+      chat.users.forEach((user: any) => {
+        if (user._id === message.sender._id) return;
+        socket.in(user._id).emit("message received", message);
       });
     });
-
-    socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.id);
-    });
   });
-
-  return io;
 };
-
-export const getIO = () => io;

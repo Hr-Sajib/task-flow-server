@@ -4,9 +4,10 @@ import { UserRoutes } from "./app/modules/User/user.route";
 import { AuthRoutes } from "./app/modules/Auth/auth.route";
 import cookieParser from "cookie-parser";
 import cors from "cors"; 
-import { ChatRoutes } from "./app/modules/Chat/chat.route";
 import { ProjectRoutes } from "./app/modules/Project/project.route";
 import { TeamRoutes } from "./app/modules/Team/team.routes";
+import { ChatRouteoute } from "./app/modules/Chat/chat.route";
+import { MessageRoute } from "./app/modules/Message/message.route";
 
 const app: Application = express();
 
@@ -26,7 +27,8 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/project", ProjectRoutes);
 app.use("/api/user", UserRoutes);
 app.use("/api/auth", AuthRoutes);
-app.use("/api/chat", ChatRoutes);
+app.use("/api/chat", ChatRouteoute);
+app.use("/api/message", MessageRoute);
 app.use("/api/team", TeamRoutes)
 
 // Global error handler
