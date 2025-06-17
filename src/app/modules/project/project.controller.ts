@@ -86,7 +86,6 @@ const cancelProject = catchAsync(async (req: Request, res: Response) => {
 
 const updateProject = catchAsync(async (req: Request, res: Response) => {
 
-  console.log("_______c________")
   const projectId = req.params.projectId;
   const updatedData = req.body;
   console.log("loggedin user email: ", req.user);
@@ -133,7 +132,6 @@ const updateProject = catchAsync(async (req: Request, res: Response) => {
     const userEmail = req.user?.userEmail;
     console.log("In ctrl: ",userEmail,team)
     if (userEmail && userEmail !== team.teamLeaderEmail && userEmail !== team.teamColeaderEmail) {
-      console.log("not in the team")
       throw new AppError(httpStatus.UNAUTHORIZED, "You are not in the team the project is assigned to or not in leadership!");
     }
   }
