@@ -11,15 +11,16 @@ const allMessages = catchAsync(async (req: Request, res: Response) => {
 });
 
 const sendMessage = catchAsync(async (req: Request, res: Response) => {
-  const { content, chatId } = req.body;
-
-  const message = await MessageService.sendMessageToDB(
-    content,
-    chatId,
-    req.user._id
-  );
-
-  res.status(201).json(message);
-});
+    const { content, chatId } = req.body;
+  
+    const message = await MessageService.sendMessageToDB(
+      content,
+      chatId,
+      req.user.userEmployeeId  // 🔥 userEmployeeId নেওয়া হচ্ছে JWT থেকে
+    );
+  
+    res.status(201).json(message);
+  });
+  
 
 export const MessageController = {allMessages, sendMessage}

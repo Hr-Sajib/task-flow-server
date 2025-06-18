@@ -5,10 +5,10 @@ import sendResponse from "../../utils/sendResponse";
 import { ChatService } from "./chat.service";
 
 const accessChat = catchAsync(async (req: Request, res: Response) => {
-  const { userId } = req.body;
-  if (!userId) return res.status(400).json({ message: "userId is required" });
+  const { userEmployeeId } = req.body;
+  if (!userEmployeeId) return res.status(400).json({ message: "userEmployeeId is required" });
 
-  const result = await ChatService.accessChatFromDB(userId, req.user._id);
+  const result = await ChatService.accessChatFromDB(userEmployeeId, req.user?.userEmployeeId);
   res.status(200).json(result);
   // sendResponse(res, {
   //   statusCode: httpStatus.OK,
@@ -19,7 +19,7 @@ const accessChat = catchAsync(async (req: Request, res: Response) => {
 });
 
 const fetchChats = catchAsync(async (req: Request, res: Response) => {
-  const result = await ChatService.fetchChatsFromDB(req.user._id);
+  const result = await ChatService.fetchChatsFromDB(req.user?.userEmployeeId);
   res.status(200).json(result);
 });
 
