@@ -5,6 +5,7 @@ import config from "../../../config";
 import { User } from "./user.model";
 import { Team } from "../Team/team.model";
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const createUserIntoDB = async (payLoad: TUser) => {
   const {
@@ -15,7 +16,7 @@ const createUserIntoDB = async (payLoad: TUser) => {
     userPassword,
     userRole,
     address,
-    phone,
+    userPhone,
     photo,
   } = payLoad;
 
@@ -50,7 +51,7 @@ const createUserIntoDB = async (payLoad: TUser) => {
     userPassword,
     userEmployeeId,
     address,
-    phone,
+    userPhone,
     photo,
   };
 
@@ -66,37 +67,20 @@ const getAllUsersFromDB = async() => {
 }
 
 const getSingleUserFromDB = async (id: string) => {
-  const result = await User.findById(id);
+  const result = await User.findOne({userEmployeeId: id});
   return result;
 };
 
 
-const updateUserIntoDB = async (user: any, payload: any) => {
+const updateUserProfileintoDB = async (user: any, payload: any) => {
   const userEmail = user.userEmail;
 
-  const {
-    oldPassword,
-    newPassword,
-    ...restUpdate
-  } = payload;
+  // Extract fields to update, excluding password and email
+  const { userPassword, userEmail: payloadEmail, ...restUpdate } = payload;
 
   const existingUser = await User.findOne({ userEmail }).select('+userPassword');
   if (!existingUser) {
     throw new Error('User not found');
-  }
-
-  if (oldPassword && newPassword) {
-    const isMatched = await User.isPasswordMatched(
-      oldPassword,
-      existingUser.userPassword
-    );
-
-    if (!isMatched) {
-      throw new Error('Old password is incorrect');
-    }
-
-    const bcrypt = await import('bcrypt');
-    restUpdate.userPassword = await bcrypt.hash(newPassword, 10);
   }
 
   const updatedUser = await User.findOneAndUpdate(
@@ -110,6 +94,43 @@ const updateUserIntoDB = async (user: any, payload: any) => {
 
   return updatedUser;
 };
+
+const changePassword = async (user: any, payload: any) => {
+
+  const userEmail = user.userEmail;
+  const { oldPassword, newPassword } = payload;
+
+  const existingUser = await User.findOne({ userEmail }).select("+userPassword");
+  if (!existingUser) {
+    throw new Error("User not found");
+  }
+
+  if (!oldPassword || !newPassword) {
+    throw new Error("Old password and new password are required");
+  }
+
+  const isOldPasswordCorrect = await bcrypt.compare(oldPassword, existingUser.userPassword);
+
+  if (!isOldPasswordCorrect) {
+    throw new AppError(401, "Old password is incorrect");
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  const updatedUser = await User.findOneAndUpdate(
+    { userEmail },
+    { $set: { userPassword: hashedPassword } },
+    {
+      new: true,
+      runValidators: true,
+    }
+  ).select("-userPassword");
+
+  return updatedUser;
+};
+
+
+
 
 // const deleteUserIntoDB = async (id: string) => {
 //   const result = await User.deleteOne({ _id: id });
@@ -181,7 +202,8 @@ const deleteUserIntoDB = async (id: string) => {
 
 export const UserServices = {
   createUserIntoDB,
-  updateUserIntoDB,
+  updateUserProfileintoDB,
+  changePassword,
   getAllUsersFromDB,
   deleteUserIntoDB,
   getSingleUserFromDB

@@ -8,6 +8,7 @@ import { ProjectRoutes } from "./app/modules/Project/project.route";
 import { TeamRoutes } from "./app/modules/Team/team.routes";
 import { ChatRouteoute } from "./app/modules/Chat/chat.route";
 import { MessageRoute } from "./app/modules/Message/message.route";
+import { PaymentRoutes } from "./app/modules/Payment/payment.route";
 
 const app: Application = express();
 
@@ -30,6 +31,7 @@ app.use("/api/auth", AuthRoutes);
 app.use("/api/chat", ChatRouteoute);
 app.use("/api/message", MessageRoute);
 app.use("/api/team", TeamRoutes)
+app.use("/api/payment", PaymentRoutes)
 
 // Global error handler
 app.use(globalErrorHandler);

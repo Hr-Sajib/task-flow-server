@@ -40,7 +40,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
     console.log("decoded in auth: ",decoded)
  
     // Check if user exists
-  const user = await User.findOne({ userEmail: userEmail }).select("+userPassword");
+    const user = await User.findOne({ userEmail: userEmail }).select("+userPassword");
     if (!user) {
       throw new AppError(httpStatus.NOT_FOUND, "User not found");
     }

@@ -5,6 +5,7 @@ import { Team } from "./team.model";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
 import { ProjectModel } from "../Project/project.model";
+<<<<<<< HEAD
 
 // const createTeamIntoDB = async (payload: TTeam) => {
 //     const { teamID, teamName, teamLeaderEmail, teamColeaderEmail, teamMembersEmails } = payload;
@@ -62,6 +63,8 @@ import { ProjectModel } from "../Project/project.model";
 
 //     return newTeam;
 //   };
+=======
+>>>>>>> 507eb98a537d0d49b9d8c69c073dc790028d7de9
 
 // const createTeamIntoDB = async (payload: TTeam) => {
 //   const { teamID, teamName, teamLeaderEmail, teamColeaderEmail, teamMembersEmails } = payload;
@@ -157,7 +160,11 @@ const createTeamIntoDB = async (payload: TTeam) => {
       userEmail: teamLeaderEmail,
     }).session(session);
     if (!isExistTeamLeaderEmail) {
+<<<<<<< HEAD
       throw new Error(
+=======
+      throw new AppError(httpStatus.BAD_REQUEST,
+>>>>>>> 507eb98a537d0d49b9d8c69c073dc790028d7de9
         `Team leader email "${teamLeaderEmail}" not found in database.`
       );
     }
@@ -167,13 +174,18 @@ const createTeamIntoDB = async (payload: TTeam) => {
         userEmail: teamColeaderEmail,
       }).session(session);
       if (!isExistTeamColeaderEmail) {
+<<<<<<< HEAD
         throw new Error(
+=======
+        throw new AppError(httpStatus.BAD_REQUEST,
+>>>>>>> 507eb98a537d0d49b9d8c69c073dc790028d7de9
           `Team co-leader email "${teamColeaderEmail}" not found in database.`
         );
       }
     }
 
     for (const memberEmail of teamMembersEmails) {
+<<<<<<< HEAD
       const isExistMemberEmail = await User.findOne({
         userEmail: memberEmail,
       }).session(session);
@@ -184,6 +196,30 @@ const createTeamIntoDB = async (payload: TTeam) => {
       }
     }
 
+=======
+      const ExistMemberEmail = await User.findOne({
+        userEmail: memberEmail,
+      }).session(session);
+      if (!ExistMemberEmail) {
+        throw new AppError(httpStatus.BAD_REQUEST,
+          `Team member email "${memberEmail}" not found in database.`
+        );
+      }
+      if(ExistMemberEmail?.userRole == "client"){
+        throw new AppError(httpStatus.BAD_REQUEST,
+          `User with email "${memberEmail}" is a client!`
+        );
+      }
+      if(ExistMemberEmail?.userRole !== "user"){
+        throw new AppError(httpStatus.BAD_REQUEST,
+          `Team member "${memberEmail}" is already in a team!`
+        );
+      }
+    }
+
+
+
+>>>>>>> 507eb98a537d0d49b9d8c69c073dc790028d7de9
     // Update user roles
     await User.updateOne(
       { userEmail: teamLeaderEmail },

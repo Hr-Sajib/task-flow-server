@@ -44,7 +44,7 @@ const getSingleUser = catchAsync(async(req:Request, res: Response) => {
 const updateUser = catchAsync(async(req: Request, res: Response) => {
   const user = req.user
   const updatePayload = req.body;
-  const result = await UserServices.updateUserIntoDB(user, updatePayload)
+  const result = await UserServices.updateUserProfileintoDB(user, updatePayload)
 
   sendResponse(res, {
     success: true,
@@ -66,6 +66,22 @@ const deleteUser = catchAsync(async(req: Request, res: Response) => {
   });
 })
 
+const changePassword = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user; 
+  const { oldPassword, newPassword } = req.body;
+
+  const result = await UserServices.changePassword(user, { oldPassword, newPassword });
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Password changed successfully",
+    data: result,
+  });
+});
+
+
+
 
 
 export const UserControllers = {
@@ -73,5 +89,6 @@ export const UserControllers = {
   updateUser,
   getAllUsers,
   deleteUser,
-  getSingleUser
+  getSingleUser,
+  changePassword
 };

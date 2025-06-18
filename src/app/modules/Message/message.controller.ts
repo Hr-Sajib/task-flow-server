@@ -16,7 +16,7 @@ const sendMessage = catchAsync(async (req: Request, res: Response) => {
     const message = await MessageService.sendMessageToDB(
       content,
       chatId,
-      req.user.userEmployeeId  // 🔥 userEmployeeId নেওয়া হচ্ছে JWT থেকে
+      req.user.userEmployeeId  
     );
   
     res.status(201).json(message);

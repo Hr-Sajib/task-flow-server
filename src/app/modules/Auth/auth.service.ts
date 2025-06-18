@@ -22,6 +22,7 @@ const loginUserIntoDB = async (payload: { userEmail: string; userPassword: strin
   // Create JWT tokens
   const jwtPayload = {
     userEmail: user.userEmail,
+    userEmployeeId: user.userEmployeeId as string,
     role: user.userRole,
   };
 
@@ -65,6 +66,7 @@ const refreshToken = async (token: string) => {
 
   const jwtPayload = {
     userEmail: user.userEmail,
+    userEmployeeId: user.userEmployeeId as string,
     role: user.userRole,
   };
 

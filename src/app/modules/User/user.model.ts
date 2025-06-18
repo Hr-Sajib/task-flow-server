@@ -34,10 +34,8 @@ const userSchema = new Schema<TUser, UserModel>(
         type: String,
       },
       
-      phone: {
+      userPhone: {
         type: String,
-        unique: true,
-        sparse: true,
       },
       
       photo: {

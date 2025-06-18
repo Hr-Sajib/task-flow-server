@@ -22,13 +22,13 @@ const sendMessageToDB = async (
       throw new Error("Invalid data");
     }
   
-    // 🔍 Step 1: Find sender by employee ID
+
     const senderUser = await User.findOne({ userEmployeeId: senderEmployeeId });
     if (!senderUser) {
       throw new AppError(httpStatus.NOT_FOUND, "Sender user not found");
     }
   
-    // ✅ Step 2: Use sender’s _id
+
     let message = await Message.create({
       sender: senderUser._id,
       content,
@@ -42,7 +42,7 @@ const sendMessageToDB = async (
       select: "userName userEmail photo",
     });
   
-    // 📨 Step 4: Set latest message
+
     await Chat.findByIdAndUpdate(chatId, { latestMessage: message });
   
     return message;
