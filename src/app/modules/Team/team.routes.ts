@@ -13,23 +13,23 @@ router.get("/findMyTeam",auth("admin","user","teamColeader","teamLeader","teamMe
 router.patch("/move-member", TeamControllers.moveMember)
 
 router.patch("/", 
-    // auth('admin'), 
+    auth('admin'), 
     TeamControllers.updateTeam)
 
 router.patch("/change-leader",
-    //  auth('admin'), 
+     auth('admin'), 
      TeamControllers.changeLeader)
 
 router.patch("/change-coleader", 
-    // auth('admin', 'teamLeader'), 
+    auth('admin', 'teamLeader'), 
     TeamControllers.changeCoLeader)
 
 router.patch("/assign-project", 
-    // auth('admin'), 
+    auth('admin'), 
     TeamControllers.assignProjectToTeam)
 
 router.delete("/:id",  
-    // auth('admin'), 
+    auth('admin'), 
     TeamControllers.deleteTeam)
 
 export const TeamRoutes = router;

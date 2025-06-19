@@ -6,17 +6,17 @@ import auth from "../../middlewares/auth";
 const router = express.Router();
 
 router.post("/",
-    // auth("admin"),
+    auth("admin"),
     validateRequest(ProjectValidation.createProjectSchema), ProjectController.createProject);
 
 
 router.get("/",
-    // auth("admin"),
+    auth("admin"),
      ProjectController.getAllProjects);
 
 
 router.get("/:projectId",
-    // auth("admin", "teamLeader", "teamColeader", "teamMember"),
+    auth("admin", "teamLeader", "teamColeader", "teamMember"),
      ProjectController.getProjectById);
 
 router.patch("/:projectId",
@@ -24,7 +24,7 @@ router.patch("/:projectId",
     ProjectController.updateProject);
 
 router.patch("/:projectId/cancel",
-    // auth("admin"),
+    auth("admin"),
     ProjectController.cancelProject);
 
 

@@ -8,26 +8,26 @@ import auth from '../../middlewares/auth';
 
    router.post(
      '/',
-    //  auth("admin"),
+     auth("admin"),
      validateRequest(UserValidations.createUserValidationSchema),
      UserControllers.createUser,
    );
 
    router.get("/",
-    // auth("admin"),
+    auth("admin"),
     UserControllers.getAllUsers);
 
    router.get("/:id",
-      // auth("user", "admin", "teamLeader", "teamColeader", "teamMember", "client"),
+      auth("user", "admin", "teamLeader", "teamColeader", "teamMember", "client"),
      UserControllers.getSingleUser);
 
    router.delete('/:id',
-      // auth("admin"),
+      auth("admin"),
     UserControllers.deleteUser);
 
    router.patch(
      '/:employeeId',
-      // auth("user", "admin", "teamLeader", "teamColeader", "teamMember", "client"),
+      auth("user", "admin", "teamLeader", "teamColeader", "teamMember", "client"),
      validateRequest(UserValidations.updateUserValidationSchema),
      UserControllers.updateUser,
    );
