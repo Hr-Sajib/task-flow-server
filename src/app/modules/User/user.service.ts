@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TUser } from "./user.interface";
@@ -77,6 +79,7 @@ const updateUserProfileintoDB = async (employeeId: string, payload: any) => {
     ...restUpdate
   } = payload;
 
+  console.log(payloadEmployeeId, payloadEmail,userPassword)
   const updatedUser = await User.findOneAndUpdate(
     { employeeId },
     { $set: restUpdate },

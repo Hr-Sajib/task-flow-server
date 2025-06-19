@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import QueryBuilder from "../../builder/QueryBuilder";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
@@ -28,7 +27,7 @@ const getAllProjectsFromDB = async (query: Record<string, unknown>) => {
     const result = await projectsQuery.modelQuery.exec();
     return result;
   } catch (error) {
-    throw new Error(`Failed to fetch projects in service`);
+    throw new Error(`Failed to fetch projects in service ${error}`);
   }
 };
 

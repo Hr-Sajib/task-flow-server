@@ -46,14 +46,13 @@ const userSchema = new Schema<TUser, UserModel>(
 );
 
 userSchema.pre('save', async function (next) {
-  const userInfo = this;
-  userInfo.userPassword = await bcrypt.hash(
-    userInfo.userPassword,
+  this.userPassword = await bcrypt.hash(
+    this.userPassword,
     Number(config.brypt_salt_rounds),
   );
-
   next();
 });
+
 
 userSchema.post('save', function (doc, next) {
   doc.userPassword = '';

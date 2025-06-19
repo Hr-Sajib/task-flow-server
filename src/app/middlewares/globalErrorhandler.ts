@@ -12,6 +12,7 @@ import { TErrorSources } from '../errors/interface/error';
 
 // Define the error handler with proper typing
 const globalErrorHandler: ErrorRequestHandler = (
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   err: any,
   req: Request,
   res: Response,

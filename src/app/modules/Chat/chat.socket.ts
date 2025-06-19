@@ -2,6 +2,7 @@ import { Server, ServerOptions } from "socket.io";
 import { TeamChatServices } from "./chat.service";
 
 let io: Server;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export const initSocket = (httpServer: any) => {
   const ioOptions: Partial<ServerOptions> = {
@@ -39,7 +40,7 @@ export const initSocket = (httpServer: any) => {
       try {
         // *** MARK: Call TeamChatServices.addMessageToTeamChat here ***
         const messageData = { timestamp, messageText: message, senderName: senderEmail.split('@')[0], senderEmail };
-        const updatedChat = await TeamChatServices.addMessageToTeamChat(teamName, messageData);
+        await TeamChatServices.addMessageToTeamChat(teamName, messageData);
 
         // Emit message to all users in the room (no database for now)
         io.to(teamName).emit("receiveMessage", {
