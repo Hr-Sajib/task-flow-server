@@ -121,5 +121,26 @@ const assignProjectToTeam = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const TeamControllers = {createTeam, moveMember, getAllTeam, updateTeam, changeLeader,changeCoLeader, deleteTeam,  assignProjectToTeam,
+
+const findMyTeam = catchAsync(async (req: Request, res: Response) => {
+
+  const email = req.user?.userEmail;
+
+  const result = await TeamServices.findMyTeamIntoDB(email);
+
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, `No teams found by your email!`);
+  }
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Your team information is successfully found",
+    data: result,
+  });
+});
+
+
+
+export const TeamControllers = {findMyTeam, createTeam, moveMember, getAllTeam, updateTeam, changeLeader,changeCoLeader, deleteTeam,  assignProjectToTeam,
 }

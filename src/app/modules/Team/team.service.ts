@@ -328,6 +328,15 @@ const getSingleTeamByTeamId = async (teamId: string) => {
   return team;
 };
 
+const findMyTeamIntoDB = async (userEmail: string) => {
+  const team = await Team.findOne({
+    teamMembersEmails: { $in: [userEmail] }, // Search only in teamMembersEmails array
+  });
+  if (!team) {
+    throw new Error(`No team found for user with email "${userEmail}".`);
+  }
+  return team;
+};
 
 export const TeamServices = {
   createTeamIntoDB,
@@ -338,7 +347,8 @@ export const TeamServices = {
   changeCoLeaderFromDB,
   deleteTeamFromDB,
   assignProjectToTeam,
-  getSingleTeamByTeamId
+  getSingleTeamByTeamId,
+  findMyTeamIntoDB
 };
 
 

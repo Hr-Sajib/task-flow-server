@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.post("/", TeamControllers.createTeam)
 
-router.get("/", TeamControllers.getAllTeam)
+router.get("/",TeamControllers.getAllTeam)
+
+router.get("/findMyTeam",auth("admin","user","teamColeader","teamLeader","teamMember"), TeamControllers.findMyTeam)
 
 router.patch("/move-member", TeamControllers.moveMember)
 

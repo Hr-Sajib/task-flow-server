@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { paymentService } from "./payment.service";
-import config from "../../../config";
 import status from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
