@@ -9,7 +9,7 @@ const createCheckoutSession = catchAsync(
   async (req: Request, res: Response) => {
 
     const origin: string =
-      "http://localhost:5100";
+      "http://localhost:3000";
 
     const result = await paymentService.createCheckoutSession(req.body, origin);
 
