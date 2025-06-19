@@ -3,7 +3,7 @@ import sendResponse from "../../utils/sendResponse";
 import  httpStatus  from 'http-status';
 import { Request, Response } from 'express';
 import { TeamServices } from "./team.service";
-import { ProjectModel } from "../Project/project.model";
+import { ProjectModel } from "../project/project.model";
 import AppError from "../../errors/AppError";
 import { Team } from "./team.model";
 

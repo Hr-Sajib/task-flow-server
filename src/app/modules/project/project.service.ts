@@ -1,8 +1,8 @@
 import QueryBuilder from "../../builder/QueryBuilder";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
-import { ProjectModel } from "../Project/project.model";
-import { IProject } from "../Project/project.interface";
+import { ProjectModel } from "../project/project.model";
+import { IProject } from "../project/project.interface";
 
 const createProjectIntoDB = async (project: IProject) => {
   const existingProject = await ProjectModel.findOne({ projectId: project.projectId }).exec();

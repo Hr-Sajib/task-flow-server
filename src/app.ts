@@ -4,7 +4,7 @@ import { UserRoutes } from "./app/modules/User/user.route";
 import { AuthRoutes } from "./app/modules/Auth/auth.route";
 import cookieParser from "cookie-parser";
 import { ChatRoutes } from "./app/modules/Chat/chat.route";
-import { ProjectRoutes } from "./app/modules/Project/project.route";
+import { ProjectRoutes } from "./app/modules/project/project.route";
 import { TeamRoutes } from "./app/modules/Team/team.routes";
 import { PaymentRoutes } from "./app/modules/Payment/payment.route";
 

@@ -4,7 +4,7 @@ import { TTeam } from "./team.interface";
 import { Team } from "./team.model";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
-import { ProjectModel } from "../Project/project.model";
+import { ProjectModel } from "../project/project.model";
 
 const createTeamIntoDB = async (payload: TTeam) => {
   const session = await mongoose.startSession();

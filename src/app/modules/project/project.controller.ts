@@ -5,7 +5,7 @@ import sendResponse from "../../utils/sendResponse";
 import AppError from "../../errors/AppError";
 import { UserServices } from "../User/user.service";
 import { Team } from "../Team/team.model";
-import { ProjectService } from "../Project/project.service";
+import { ProjectService } from "../project/project.service";
 
 
 
