@@ -1,6 +1,6 @@
-// src/app/modules/Chat/chat.model.ts
+// src/app/modules/Team/teamMessage.model.ts
 
-import { Schema, model } from 'mongoose';
+import { Schema, model } from "mongoose";
 
 const MessageSchema = new Schema({
   timestamp: {
@@ -12,27 +12,35 @@ const MessageSchema = new Schema({
     type: String,
     required: true,
   },
-  sender: { 
-    type: String,
-    required: true,
-  },
-});
-
-const ChatMessageSchema = new Schema({
-  teamName: {
+  senderName: {
     type: String,
     required: true,
   },
   senderEmail: {
     type: String,
     required: true,
+    trim: true,
+    match: [
+      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+      "Please enter a valid email address",
+    ],
   },
-  messages: {
-    type: [MessageSchema],
-    default: [],
-  },
-}, {
-  timestamps: true,
 });
 
-export const ChatModel = model('Chat', ChatMessageSchema);
+const TeamChatSchema = new Schema(
+  {
+    teamName: {
+      type: String,
+      required: true,
+    },
+    messages: {
+      type: [MessageSchema],
+      default: [],
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export const Chat = model("TeamMessage", TeamChatSchema);

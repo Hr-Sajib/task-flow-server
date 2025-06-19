@@ -1,13 +1,12 @@
 
-export type TChatMessage = {
-  _id?: string;
-  teamName: string;        
-  senderEmail: string;    
-  messages: Tmessage[];
+export type TTeamChat = {
+  teamName: string;          
+  messages: TMessage[];
 };
 
-type Tmessage = {
+type TMessage = {
   timestamp: Date;
   messageText: string;
-  sender: string;
+  senderName: string;
+  senderEmail: string;
 }

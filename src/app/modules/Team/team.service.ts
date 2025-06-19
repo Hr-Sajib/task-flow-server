@@ -320,6 +320,14 @@ const assignProjectToTeam = async (payload: {
   );
   return updatedProject;
 };
+const getSingleTeamByTeamId = async (teamId: string) => {
+  const team = await Team.findOne({ teamID: teamId });
+  if (!team) {
+    throw new Error(`Team with ID "${teamId}" not found.`);
+  }
+  return team;
+};
+
 
 export const TeamServices = {
   createTeamIntoDB,
@@ -330,4 +338,7 @@ export const TeamServices = {
   changeCoLeaderFromDB,
   deleteTeamFromDB,
   assignProjectToTeam,
+  getSingleTeamByTeamId
 };
+
+

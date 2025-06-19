@@ -26,7 +26,7 @@ import auth from '../../middlewares/auth';
     UserControllers.deleteUser);
 
    router.patch(
-     '/update-user',
+     '/:employeeId',
       // auth("user", "admin", "teamLeader", "teamColeader", "teamMember", "client"),
      validateRequest(UserValidations.updateUserValidationSchema),
      UserControllers.updateUser,

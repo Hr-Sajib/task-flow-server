@@ -23,10 +23,7 @@ const createUserIntoDB = async (payLoad: TUser) => {
   const checkExistingUser = await User.findOne({ userEmail: userEmail });
 
   if (checkExistingUser) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      "This email is already in use!"
-    );
+    throw new AppError(httpStatus.BAD_REQUEST, "This email is already in use!");
   }
 
   const checkExistingUserById = await User.findOne({
@@ -60,66 +57,29 @@ const createUserIntoDB = async (payLoad: TUser) => {
   return createdUser;
 };
 
-const getAllUsersFromDB = async() => {
+const getAllUsersFromDB = async () => {
   const result = await User.find();
 
-  return result
-}
-
-const getSingleUserFromDB = async (id: string) => {
-  const result = await User.findOne({userEmployeeId: id});
   return result;
 };
 
-
-const updateUserProfileintoDB = async (user: any, payload: any) => {
-  const userEmail = user.userEmail;
-
-  // Extract fields to update, excluding password and email
-  const { userPassword, userEmail: payloadEmail, ...restUpdate } = payload;
-
-  const existingUser = await User.findOne({ userEmail }).select('+userPassword');
-  if (!existingUser) {
-    throw new Error('User not found');
-  }
-
-  const updatedUser = await User.findOneAndUpdate(
-    { userEmail },
-    { $set: restUpdate },
-    {
-      new: true,
-      runValidators: true,
-    }
-  ).select('-userPassword');
-
-  return updatedUser;
+const getSingleUserFromDB = async (id: string) => {
+  const result = await User.findOne({ userEmployeeId: id });
+  return result;
 };
 
-const changePassword = async (user: any, payload: any) => {
-
-  const userEmail = user.userEmail;
-  const { oldPassword, newPassword } = payload;
-
-  const existingUser = await User.findOne({ userEmail }).select("+userPassword");
-  if (!existingUser) {
-    throw new Error("User not found");
-  }
-
-  if (!oldPassword || !newPassword) {
-    throw new Error("Old password and new password are required");
-  }
-
-  const isOldPasswordCorrect = await bcrypt.compare(oldPassword, existingUser.userPassword);
-
-  if (!isOldPasswordCorrect) {
-    throw new AppError(401, "Old password is incorrect");
-  }
-
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
+const updateUserProfileintoDB = async (employeeId: string, payload: any) => {
+  // Extract fields to update, excluding password and email
+  const {
+    employeeId: payloadEmployeeId,
+    userEmail: payloadEmail,
+    userPassword,
+    ...restUpdate
+  } = payload;
 
   const updatedUser = await User.findOneAndUpdate(
-    { userEmail },
-    { $set: { userPassword: hashedPassword } },
+    { employeeId },
+    { $set: restUpdate },
     {
       new: true,
       runValidators: true,
@@ -129,13 +89,57 @@ const changePassword = async (user: any, payload: any) => {
   return updatedUser;
 };
 
+const changePassword = async (user: any, payload: any) => {
+  const userEmail = user?.userEmail;
+  const { oldPassword, newPassword } = payload;
 
+  const existingUser = await User.findOne({ userEmail }).select(
+    "+userPassword"
+  );
+  if (!existingUser) {
+    throw new Error("User not found");
+  }
 
+  if (!oldPassword || !newPassword) {
+    throw new Error("Old password and new password are required");
+  }
 
-// const deleteUserIntoDB = async (id: string) => {
-//   const result = await User.deleteOne({ _id: id });
-//   return result;
-// };
+  if (user?.role == "admin") {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    const updatedUser = await User.findOneAndUpdate(
+      { userEmail },
+      { $set: { userPassword: hashedPassword } },
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).select("-userPassword");
+
+    return updatedUser;
+  } else {
+    const isOldPasswordCorrect = await bcrypt.compare(
+      oldPassword,
+      existingUser.userPassword
+    );
+
+    if (!isOldPasswordCorrect) {
+      throw new AppError(401, "Old password is incorrect");
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    const updatedUser = await User.findOneAndUpdate(
+      { userEmail },
+      { $set: { userPassword: hashedPassword } },
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).select("-userPassword");
+
+    return updatedUser;
+  }
+};
 
 const deleteUserIntoDB = async (id: string) => {
   const session = await mongoose.startSession();
@@ -151,19 +155,24 @@ const deleteUserIntoDB = async (id: string) => {
 
     await Team.updateMany(
       {
-        $or: [
-          { teamLeaderEmail: userEmail },
-          { teamColeaderEmail: userEmail },
-        ],
+        $or: [{ teamLeaderEmail: userEmail }, { teamColeaderEmail: userEmail }],
       },
       [
         {
           $set: {
             teamLeaderEmail: {
-              $cond: [{ $eq: ["$teamLeaderEmail", userEmail] }, null, "$teamLeaderEmail"],
+              $cond: [
+                { $eq: ["$teamLeaderEmail", userEmail] },
+                null,
+                "$teamLeaderEmail",
+              ],
             },
             teamColeaderEmail: {
-              $cond: [{ $eq: ["$teamColeaderEmail", userEmail] }, null, "$teamColeaderEmail"],
+              $cond: [
+                { $eq: ["$teamColeaderEmail", userEmail] },
+                null,
+                "$teamColeaderEmail",
+              ],
             },
           },
         },
@@ -198,13 +207,11 @@ const deleteUserIntoDB = async (id: string) => {
   }
 };
 
-
-
 export const UserServices = {
   createUserIntoDB,
   updateUserProfileintoDB,
   changePassword,
   getAllUsersFromDB,
   deleteUserIntoDB,
-  getSingleUserFromDB
+  getSingleUserFromDB,
 };
