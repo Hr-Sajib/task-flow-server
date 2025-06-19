@@ -1,10 +1,13 @@
-import { Model } from "mongoose";
 
 export type TChatMessage = {
   _id?: string;
-  teamId: string;         // Refer to the team
+  teamName: string;        
   senderEmail: string;    
-  message: string;
-  timestamp: Date;
+  messages: Tmessage[];
 };
 
+type Tmessage = {
+  timestamp: Date;
+  messageText: string;
+  sender: string;
+}

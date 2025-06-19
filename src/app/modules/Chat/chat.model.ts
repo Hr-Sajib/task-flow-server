@@ -1,25 +1,38 @@
-import { Schema, model } from 'mongoose';
-import { TChatMessage } from './chat.interface';
+// src/app/modules/Chat/chat.model.ts
 
-// Define the schema
-const chatSchema = new Schema<TChatMessage>({
-  teamId: {
-    type: String,
-    required: [true, 'Team ID is required'],
-  },
-  senderEmail: {
-    type: String,
-    required: [true, 'Sender email is required'],
-  },
-  message: {
-    type: String,
-    required: [true, 'Message is required'],
-  },
+import { Schema, model } from 'mongoose';
+
+const MessageSchema = new Schema({
   timestamp: {
     type: Date,
+    required: true,
     default: Date.now,
+  },
+  messageText: {
+    type: String,
+    required: true,
+  },
+  sender: { 
+    type: String,
+    required: true,
   },
 });
 
-// Export the model
-export const Chat = model<TChatMessage>('Chat', chatSchema);
+const ChatMessageSchema = new Schema({
+  teamName: {
+    type: String,
+    required: true,
+  },
+  senderEmail: {
+    type: String,
+    required: true,
+  },
+  messages: {
+    type: [MessageSchema],
+    default: [],
+  },
+}, {
+  timestamps: true,
+});
+
+export const ChatModel = model('Chat', ChatMessageSchema);

@@ -19,11 +19,11 @@ const createProjectSchema = z.object({
       }),
     deadline: z
       .string({ required_error: "Deadline is required" })
-      .regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, {
-        message:
-          "Deadline must be a valid ISO 8601 timestamp (e.g., 2025-08-10T00:00:00.000Z)",
-      }),
-    projectValue: z.number({ required_error: "Project value is required" }).min(0),
+      // .regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, {
+      //   message:
+      //     "Deadline must be a valid ISO 8601 timestamp (e.g., 2025-08-10T00:00:00.000Z)",
+      // }),
+    ,projectValue: z.number({ required_error: "Project value is required" }).min(0),
     cancellationNote: z.string().optional(),
     frontendRoleAssignedTo: z.string().email("Invalid email format").optional(),
     backendRoleAssignedTo: z.string().email("Invalid email format").optional(),

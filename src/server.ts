@@ -5,9 +5,9 @@ import config from "./config";
 
 import app from "./app";
 import { initSocket } from "./app/modules/Chat/chat.socket";
-import { UserRoutes } from "./app/modules/User/user.route";
-import { ProjectRoutes } from "./app/modules/Project/project.route";
-import { ChatRoutes } from "./app/modules/Chat/chat.route";
+// import { UserRoutes } from "./app/modules/User/user.route";
+// import { ProjectRoutes } from "./app/modules/Project/project.route";
+// import { ChatRoutes } from "./app/modules/Chat/chat.route";
 
 async function main() {
   try {

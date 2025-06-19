@@ -1,15 +1,27 @@
-import { Server } from "socket.io";
+import { Server, ServerOptions } from "socket.io";
 import { Chat } from "./chat.model";
 
 let io: Server;
 
 export const initSocket = (httpServer: any) => {
-  io = new Server(httpServer, {
+  const ioOptions: Partial<ServerOptions> = {
     cors: {
-      origin: "*", 
+      origin: (origin, callback) => {
+        // Allow the requesting origin or fall back to local development
+        if (origin === "http://localhost:5173" || origin === "https://task-flow-rho-three.vercel.app") {
+          callback(null, origin);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
       methods: ["GET", "POST"],
+      credentials: true,
+      allowedHeaders: ["Authorization", "Content-Type"],
     },
-  });
+    transports: ["websocket", "polling"], // Moved to top-level options
+  };
+
+  io = new Server(httpServer, ioOptions);
 
   io.on("connection", (socket) => {
     console.log("A user connected:", socket.id);
