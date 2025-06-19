@@ -1,7 +1,7 @@
 import express from "express";
-import { ProjectController } from "./project.controller";
+import { ProjectController } from "../Project/project.controller";
 import validateRequest from "../../middlewares/validateRequest";
-import { ProjectValidation } from "./project.validation";
+import { ProjectValidation } from "../Project/project.validation";
 import auth from "../../middlewares/auth";
 const router = express.Router();
 

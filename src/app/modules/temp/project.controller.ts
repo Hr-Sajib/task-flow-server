@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
-import { ProjectService } from "./project.service";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import AppError from "../../errors/AppError";
 import { UserServices } from "../User/user.service";
 import { Team } from "../Team/team.model";
+import { ProjectService } from "../Project/project.service";
+
+
 
 const createProject = catchAsync(async (req: Request, res: Response) => {
   const project = req.body;
