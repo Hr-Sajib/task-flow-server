@@ -1,0 +1,560 @@
+{
+	"info": {
+		"_postman_id": "586c3de2-80fa-42b2-839f-17a4d62d4cab",
+		"name": "Task Flow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "41576727"
+	},
+	"item": [
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "create project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhZG1pbkB0YXNrZmxvdy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTAwOTQzNzUsImV4cCI6MTc1MDE4MDc3NX0.cLJAuc7nlcB_SAYeJb2VZk8Hyx4ec42IjTHCG2sqg_8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n//   \"projectId\": \"PRJ172\",\n//   \"projectName\": \"Alpha One\",\n//   \"station\": \"Dhaka Office\",\n//   \"clientId\": \"CLI001\",\n//   \"deadline\": \"2025-08-10T00:00:00.000Z\",\n//   \"projectValue\": 2800,\n//   \"requirementDoc\": \"https://docs.google.com/document/d/mno131\",\n//   \"projectDescription\": \"Tool to generate dynamic forms for any service.\"\n\n}\n\n\n\n//   \"teamName\": \"Team Alpha\",\n//   \"frontendRoleAssignedTo\": \"John Doe\",\n//   \"backendRoleAssignedTo\": \"Jane Smith\",\n//   \"uiRoleAssignedTo\": \"Alice Brown\",\n//   \"lastUpdate\": \"2025-06-13T10:00:00.000Z\",\n//   \"lastMeeting\": \"2025-06-12T14:00:00.000Z\",\n//   \"projectStatus\": \"wip\",\n//   \"estimatedDelivery\": \"thisMonth\",\n//   \"rating\": \"5\",\n//   \"clientStatus\": \"active\",\n//   \"figmaLink\": \"https://www.figma.com/file/abc123/project-design\",\n//   \"backendLink\": \"https://github.com/company/backend\",\n//   \"liveLink\": \"https://www.example.com\",\n//   \"deliveryDate\": \"2025-07-28T00:00:00.000Z\",",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/project"
+					},
+					"response": []
+				},
+				{
+					"name": "get all projects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:5100/api/project"
+					},
+					"response": []
+				},
+				{
+					"name": "update project",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhZG1pbkB0YXNrZmxvdy5jb20iLCJ1c2VyRW1wbG95ZWVJZCI6IkVNMDIyIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUwMjAwNjg2LCJleHAiOjE3NTAyODcwODZ9.NebWzrK3HDfdDagihmiWVFJZaejqHuoTNA4xVIEppTI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n//   \"projectId\": \"PRJ812\",\n//   \"projectName\": \"Generator 2\",\n//   \"station\": \"Dhaka Office\",\n//   \"clientId\": \"CLI001\",\n//   \"deadline\": \"2025-08-10T00:00:00.000Z\",\n//   \"projectValue\": 2800,\n//   \"requirementDoc\": \"https://docs.google.com/document/d/mno131\",\n//   \"projectDescription\": \"Tool to generate dynamic forms for any service.\"\n\n  \"teamName\": \"Team Oli\"\n  \n//   \"frontendRoleAssignedTo\": \"John Doe\",\n//   \"backendRoleAssignedTo\": \"Jane Smith\",\n//   \"uiRoleAssignedTo\": \"Alice Brown\",\n//   \"lastUpdate\": \"2025-06-13T10:00:00.000Z\",\n//   \"lastMeeting\": \"2025-06-12T14:00:00.000Z\",\n//   \"projectStatus\": \"qa\"\n//   \"estimatedDelivery\": \"thisMonth\",\n//   \"rating\": \"5\",\n//   \"clientStatus\": \"active\",\n//   \"figmaLink\": \"https://www.figma.com/file/abc123/project-design\",\n//   \"backendLink\": \"https://github.com/company/backend\",\n//   \"liveLink\": \"https://www.example.com\",\n//   \"deliveryDate\": \"2025-07-28T00:00:00.000Z\"\n}\n\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/project/PRJ0113"
+					},
+					"response": []
+				},
+				{
+					"name": "cancel project",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cancellationNote\":\"hudai vai\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/project/PRJ0112/cancel"
+					},
+					"response": []
+				},
+				{
+					"name": "get specific project",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJvbGlAc210ZWNoLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQ5OTI1NTYzLCJleHAiOjE3NTAwMTE5NjN9.ZshhOXyzx7nmptVvRAr58kiLBem_jKvTILYoK58xoK0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\":\"Oli 2\"\n}"
+						},
+						"url": "http://localhost:5100/api/project/PRJ019"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "get specific user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userName\": \"John doe\",\n  \"userEmail\": \"john@smtech.com\",\n  \"userPassword\": \"john@smtech\",\n  \"userRole\": \"teamMember\",\n  \"userEmployeeId\": \"EMP-005\",\n  \"address\": \"Dhaka, Bangladesh\",\n  \"phone\": \"01700000000\",\n  \"photo\": \"https://example.com/profile.jpg\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/user/EM003"
+					},
+					"response": []
+				},
+				{
+					"name": "create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userName\": \"Client\",\n  \"userEmail\": \"client@taskflow.com\",\n  \"userPassword\": \"client@taskflow\",\n//   \"userRole\": \"client\",\n  \"userJoiningDate\": \"20-06-2025\",\n  \"userEmployeeId\": \"EMP001\",\n  \"address\": \"A/3 badda Dhaka\",\n  \"userPhone\": \"13318192\",\n  \"photo\": \"https://dummy.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{taskflowLive}}/api/user"
+					},
+					"response": []
+				},
+				{
+					"name": "user update",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJvbGlAc210ZWNoLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQ5OTI1NTYzLCJleHAiOjE3NTAwMTE5NjN9.ZshhOXyzx7nmptVvRAr58kiLBem_jKvTILYoK58xoK0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\":\"Oli 2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/user/update-user"
+					},
+					"response": []
+				},
+				{
+					"name": "change password",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhZG1pbkB0YXNrZmxvdy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTAxMDI2NzksImV4cCI6MTc1MDE4OTA3OX0.93JvanbLLhTerl5wt8Vhp0Q4jFks6hFC7Cw5PaOx_1w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"oldPassword\":\"admin@taskflow2\",\n  \"newPassword\":\"admin@taskflow\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/user/change-password"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhZG1pbkB0YXNrZmxvdy5jb20iLCJ1c2VyRW1wbG95ZWVJZCI6IkVNMDIyIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUwMTE5Mzk3LCJleHAiOjE3NTAyMDU3OTd9.YSUGAwRcm11RAfTKT8wCmg65znznq8VI16rPnOeHZfk",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\n//     \"userEmail\":\"admin@taskflow.com\",\n//     \"userPassword\":\"admin@taskflow\"\n// }\n\n{\n    \"userEmail\":\"emilik@smtech.com\",\n    \"userPassword\":\"emilik@smtech\"\n}\n\n// {\n//   \"userEmail\": \"abir@smtech.com\",\n//   \"userPassword\": \"abir@smtech\"\n// }\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{taskflowLive}}/api/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "refresh token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJqb2huQHNtdGVjaC5jb20iLCJyb2xlIjoidGVhbU1lbWJlciIsImlhdCI6MTc0OTkyMDU0NSwiZXhwIjoxNzUwMDA2OTQ1fQ.bP0ojjW4y3IJtbOGZ9qFEkhvGI8umtMnRS2Y2hXpSAo",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/auth/refresh"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "get specific team chat",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"projectId\": \"PRJ0111\",\n  \"projectName\": \"Health Website\",\n  \"station\": \"Dhaka Office\",\n  \"clientId\": \"CLIENT123\",\n  \"deadline\": \"2025-07-30T00:00:00.000Z\",\n  \"projectValue\": 2000,\n  \"requirementDoc\": \"https://docs.google.com/document/d/xyz123\"\n}\n//   \"teamName\": \"Team Alpha\",\n//   \"frontendRoleAssignedTo\": \"John Doe\",\n//   \"backendRoleAssignedTo\": \"Jane Smith\",\n//   \"uiRoleAssignedTo\": \"Alice Brown\",\n//   \"lastUpdate\": \"2025-06-13T10:00:00.000Z\",\n//   \"lastMeeting\": \"2025-06-12T14:00:00.000Z\",\n//   \"projectStatus\": \"wip\",\n//   \"estimatedDelivery\": \"thisMonth\",\n//   \"rating\": \"5\",\n//   \"clientStatus\": \"active\",\n//   \"figmaLink\": \"https://www.figma.com/file/abc123/project-design\",\n//   \"backendLink\": \"https://github.com/company/backend\",\n//   \"liveLink\": \"https://www.example.com\",\n//   \"deliveryDate\": \"2025-07-28T00:00:00.000Z\","
+						},
+						"url": "http://localhost:5100/api/chat/TM-008"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Team",
+			"item": [
+				{
+					"name": "create-team",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhYmNAc210ZWNoLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQ5OTI2NTI3LCJleHAiOjE3NTAwMTI5Mjd9.qvelQIY91w9AnwHTsknI3x7YmvQl1d77d2_Ui_7YcSY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"teamName\": \"team P\",\r\n  \"teamID\": \"TM-033\",\r\n  \"teamLeaderEmail\": \"emilik@smtech.com\",\r\n  \"teamColeaderEmail\": \"emili@smtech.com\",\r\n  \"teamMembersEmails\": [\r\n    \"ema@smtech.com\",\r\n    \"emilik@smtech.com\",\r\n    \"emili@smtech.com\"\r\n  ]\r\n}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/team"
+					},
+					"response": []
+				},
+				{
+					"name": "move-member",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhYmNAc210ZWNoLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQ5OTI2NTI3LCJleHAiOjE3NTAwMTI5Mjd9.qvelQIY91w9AnwHTsknI3x7YmvQl1d77d2_Ui_7YcSY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"memberEmail\": \"akash@smtech.com\",\r\n  \"toTeamName\": \"Marvelous Team\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5000/api/team/move-member"
+					},
+					"response": []
+				},
+				{
+					"name": "get-all-teams",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhYmNAc210ZWNoLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQ5OTI2NTI3LCJleHAiOjE3NTAwMTI5Mjd9.qvelQIY91w9AnwHTsknI3x7YmvQl1d77d2_Ui_7YcSY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n"
+						},
+						"url": "http://localhost:5000/api/team"
+					},
+					"response": []
+				},
+				{
+					"name": "delete-team",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhZG1pbkB0YXNrZmxvdy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTAwOTY2NjIsImV4cCI6MTc1MDE4MzA2Mn0.ftw-OEGxbjn5trSinayAgYQSGfpuwxvA_vJPbp5-wRM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"currentTeamID\": \"TF-001\",\r\n  \"teamName\": \"Task Force Reloaded\",\r\n  \"teamID\": \"TF-010\"\r\n}\r\n\r\n"
+						},
+						"url": "http://localhost:5000/api/team/68507ca9fb46404b1d7215b6"
+					},
+					"response": []
+				},
+				{
+					"name": "chnage-leader",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhZG1pbkB0YXNrZmxvdy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTAwOTg3NDIsImV4cCI6MTc1MDE4NTE0Mn0.4rhhMfzwOg2kZuZs_TMmFUPjDMUSYu_dZIFpBExid88",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"teamID\": \"TM-0001\",\r\n  \"newLeaderEmail\": \"abc@smtech.com\"\r\n}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5000/api/team/change-leader"
+					},
+					"response": []
+				},
+				{
+					"name": "change-coleader",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhZG1pbkB0YXNrZmxvdy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTAwOTg3NDIsImV4cCI6MTc1MDE4NTE0Mn0.4rhhMfzwOg2kZuZs_TMmFUPjDMUSYu_dZIFpBExid88",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"teamID\": \"TM-0001\",\r\n  \"newCoLeaderEmail\": \"def@smtech.com\"\r\n}\r\n\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5000/api/team/change-coleader"
+					},
+					"response": []
+				},
+				{
+					"name": "assign project",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhZG1pbkB0YXNrZmxvdy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTAxODU3MzAsImV4cCI6MTc1MDI3MjEzMH0.UEv0EVtnIZvaxUtAHSJCojqJUftqC2XqeZD_B9wwE58",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"teamName\":\"team X\",\n    \"projectId\":\"PRJ0111\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/team/assign-project"
+					},
+					"response": []
+				},
+				{
+					"name": "find my team",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJtZW1iZXJAdGFza2Zsb3cuY29tIiwidXNlckVtcGxveWVlSWQiOiJFTVAzMjMiLCJyb2xlIjoidGVhbU1lbWJlciIsImlhdCI6MTc1MDM2OTQwOCwiZXhwIjoxNzUwNDU1ODA4fQ.QDSOmAYRFaL06BijMOWJb3KbzFCWG5Xw07voN5HRBVE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "http://localhost:5100/api/team/findMyTeam"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "checkout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhYmlyQHNtdGVjaC5jb20iLCJ1c2VyRW1wbG95ZWVJZCI6IkVNUDIxMyIsInJvbGUiOiJ0ZWFtTGVhZGVyIiwiaWF0IjoxNzUwMTk2Njg3LCJleHAiOjE3NTAyODMwODd9.9MCv9PjRhbnKTP-TpyZpWkFpSwMmVV_fcOOzd7azq2k",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"projectId\": \"Premium Subscription\",\n  \"amount\": 999,\n  \"clientId\": \"CLI001\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://taskflow-server-pi.vercel.app/api/payment/create-checkout-session"
+					},
+					"response": []
+				},
+				{
+					"name": "confirm  payment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://taskflow-server-pi.vercel.app/api/payment/confirm?sessionId=cs_test_a109kiQ1jnaC8HhHJDwhUoqaidASdk2gfyWvJ1ejVtUEyFeBKdT8uDXMiI#fidkdWxOYHwnPyd1blpxYHZxWjA0SmNjQkRMV1BGQGdCREZ9PTRRYk9%2Fdl01QkliVm1jMnR3MWBUcjZRNDJgPXFSR2oySk9OQ0NVSDJ0UjNyaTFmSWRVb0pcS19BN1Q3dnZnUVY2SzZLUVUyNTVEPDFqNTRzVScpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl",
+							"protocol": "https",
+							"host": [
+								"taskflow-server-pi",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"payment",
+								"confirm"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "cs_test_a109kiQ1jnaC8HhHJDwhUoqaidASdk2gfyWvJ1ejVtUEyFeBKdT8uDXMiI"
+								}
+							],
+							"hash": "fidkdWxOYHwnPyd1blpxYHZxWjA0SmNjQkRMV1BGQGdCREZ9PTRRYk9%2Fdl01QkliVm1jMnR3MWBUcjZRNDJgPXFSR2oySk9OQ0NVSDJ0UjNyaTFmSWRVb0pcS19BN1Q3dnZnUVY2SzZLUVUyNTVEPDFqNTRzVScpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRW1haWwiOiJhYmlyQHNtdGVjaC5jb20iLCJ1c2VyRW1wbG95ZWVJZCI6IkVNUDIxMyIsInJvbGUiOiJ0ZWFtTGVhZGVyIiwiaWF0IjoxNzUwMTk2Njg3LCJleHAiOjE3NTAyODMwODd9.9MCv9PjRhbnKTP-TpyZpWkFpSwMmVV_fcOOzd7azq2k",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"projectId\": \"Premium Subscription\",\n  \"amount\": 999,\n  \"clientId\": \"CLI001\"\n}"
+						},
+						"url": "http://localhost:5100/api/payment/CLI001"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
